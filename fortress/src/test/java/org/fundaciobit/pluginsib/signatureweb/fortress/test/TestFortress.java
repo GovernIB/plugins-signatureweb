@@ -6,6 +6,7 @@ import com.viafirma.fortress.sdk.configuration.FortressApiConfiguration;
 import com.viafirma.fortress.sdk.model.AccessToken;
 import org.apache.log4j.Logger;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static com.viafirma.fortress.sdk.FortressApi.GRANT_TYPE_CLIENT_CREDENTIALS;
@@ -29,6 +30,7 @@ public class TestFortress {
     }
 
     @Test
+    @Ignore
     public void testAuth() throws Exception {
 
         AccessToken accessToken = api.getAccessToken("", "http://localhost:8080/portafib",

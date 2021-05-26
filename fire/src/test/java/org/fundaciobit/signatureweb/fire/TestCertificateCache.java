@@ -8,11 +8,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.cert.X509Certificate;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.UUID;
 
@@ -32,16 +30,6 @@ public class TestCertificateCache {
         return certificateBytes;
     }
 
-    @Test
-    public void testMemory() throws Exception  {
-        CertificateCache cache = new CertificateCache(100, 3600);
-        for (int i = 0; i < 1000000; i++) {
-            ByteArrayInputStream is = new ByteArrayInputStream(certificateBytes);
-            X509Certificate x509Certificate = CertificateUtils.decodeCertificate(is);
-            cache.setCachedCertificates(UUID.randomUUID().toString(), Collections.singletonList(x509Certificate));
-        }
-    }
-
     /**
      * Comprova que a una clau a la que s'accdeix regularment es manté dins el cache, mentre que les
      * que no, cada vegada que s'arriba a 100 insercions es descarten.
@@ -58,7 +46,7 @@ public class TestCertificateCache {
         cache.setCachedCertificates(firstKey, Collections.singletonList(x509Certificate));
 
         String olderKey = null;
-        for (int i = 0; i < 100000; i++) {
+        for (int i = 0; i < 1000; i++) {
             is = new ByteArrayInputStream(certificateBytes);
             x509Certificate = CertificateUtils.decodeCertificate(is);
             String currentKey = UUID.randomUUID().toString();

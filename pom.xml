@@ -1,59 +1,168 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <artifactId>pluginsib-signatureweb</artifactId>
-  <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
-  <version>3.0.0</version>
-  <packaging>pom</packaging>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
+    <artifactId>pluginsib-signatureweb</artifactId>
+    <version>3.1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-  <name>FundacioBit - PluginsIB - SignatureWeb</name>
+    <name>FundacioBit - PluginsIB - SignatureWeb</name>
 
-  <properties>
-    <miniapplet.version>1.4.2</miniapplet.version>
-    <miniapplet.artifactid>afirma-ui-miniapplet_1_4</miniapplet.artifactid>
-    <bouncycastle.version>1.51</bouncycastle.version>
-  </properties>
+    <properties>
+        <maven.compiler.release>11</maven.compiler.release>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <jboss-eap.version>7.2.9.GA</jboss-eap.version>
 
-  <modules>
-    <module>api</module>
-    <module>miniappletutils</module>
-    <module>miniappletinserver</module>
-    <module>miniappletinclient</module>
-    <module>clavefirma</module>
-    <module>fire</module>
-    <module>fnmtcloud</module>
-    <module>miniappletinserversia</module>
-    <module>fortress</module>
+        <pluginsib.signatureserver.version>3.1.0-SNAPSHOT</pluginsib.signatureserver.version>
+    </properties>
 
-    <!-- Només s'ha de recompilar quan hagi actualitzacions -->
-    <!-- <module>afirma-triphase-server-lib</module> -->
-    <module>afirma-triphase-server</module>
-    <module>exemplepassarela</module>
-  </modules>
+    <modules>
+        <module>api</module>
+        <module>miniappletutils</module>
+        <module>clavefirma</module>
+        <module>fire</module>
+        <module>fnmtcloud</module>
+        <module>miniappletinserversia</module>
+        <module>fortress</module>
+        <module>afirma-triphase-server-lib</module>
+        <module>afirma-triphase-server</module>
+    </modules>
 
-  <profiles>
-    <profile>
-      <id>miniappletui</id>
-      <modules>
-        <module>miniappletui</module>
-      </modules>
-    </profile>
-  </profiles>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.jboss.bom</groupId>
+                <artifactId>eap-runtime-artifacts</artifactId>
+                <version>${jboss-eap.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.8.2</version>
-      <scope>test</scope>
-    </dependency>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
 
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>1.2.14</version>
-      <scope>provided</scope>
-    </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.14</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 
-  </dependencies>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!-- Definició dels plugins estàndar de maven -->
+                <plugin>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>3.1.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>3.0.0-M1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>3.2.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>3.1.2</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.8.1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.0.0-M5</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>3.0.0-M5</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.2.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-ejb-plugin</artifactId>
+                    <version>3.1.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>3.3.1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-ear-plugin</artifactId>
+                    <version>3.2.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>3.0.0-M1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>3.9.1</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.0.0-M3</version>
+                <configuration>
+                    <rules>
+                        <requireMavenVersion>
+                            <version>3.6.3</version>
+                        </requireMavenVersion>
+                        <requireJavaVersion>
+                            <version>11</version>
+                        </requireJavaVersion>
+                        <!-- Per detectar problemes de dependències
+                        <banDuplicatePomDependencyVersions/>
+                        <dependencyConvergence/>
+                        <reactorModuleConvergence/> -->
+                    </rules>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>github-governib-maven</id>
+            <name>GitHub GovernIB Maven Repository</name>
+            <url>https://governib.github.io/maven/maven/</url>
+        </repository>
+        <repository>
+            <id>jboss-eap-repository-group</id>
+            <name>JBoss EAP Maven Repository</name>
+            <url>https://maven.repository.redhat.com/ga/</url>
+            <layout>default</layout>
+            <releases>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <updatePolicy>never</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
 
 </project>
