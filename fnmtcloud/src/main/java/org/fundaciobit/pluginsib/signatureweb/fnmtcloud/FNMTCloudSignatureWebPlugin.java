@@ -1242,24 +1242,19 @@ public class FNMTCloudSignatureWebPlugin extends AbstractSignatureWebPlugin {
           
           // PARAMETERS
           log.warn("PARAMETERS:");
-          Map<Object, Object> map = request2.getParameterMap();
-          
-          for(Object key : map.keySet()) {
-            
-            Object values = map.get(key);
-            
-            log.warn("    - Parameter[" +key  + "] = " + Arrays.toString((Object[])values));
-            
+          Map<String, String[]> map = request2.getParameterMap();
+          for(String key : map.keySet()) {
+            log.warn("    - Parameter[" +key  + "] = " + Arrays.toString(map.get(key)));
           }
           
           // CONTENT
-          String line = null;
           BufferedReader reader = request2.getReader();
-          StringBuffer str = new StringBuffer();
+          StringBuilder str = new StringBuilder();
+          String line;
           while ((line = reader.readLine()) != null){
               str.append(line);
           }
-          log.warn("\nCONTENT:\n================\n" + str.toString()+ "\n================\n");
+          log.warn("\nCONTENT:\n================\n" + str + "\n================\n");
 
           
           String errorMsg = "Unable to sign document: received status " + status + "(Expected: 'finished' or 'canceled')";
@@ -1701,7 +1696,7 @@ public class FNMTCloudSignatureWebPlugin extends AbstractSignatureWebPlugin {
     // certificate. To manage the truststore (a type of keystore), you can use the Java
     // "keytool" utility
     // (http://docs.oracle.com/javase/1.4.2/docs/tooldocs/windows/keytool.html).
-    InputStream inputStream = new FileInputStream(new File(this.getSslTruststore()));
+    InputStream inputStream = new FileInputStream(this.getSslTruststore());
     KeyStore truststore;
     try {
       truststore = KeyStore.getInstance(KeyStore.getDefaultType());
@@ -1738,14 +1733,14 @@ public class FNMTCloudSignatureWebPlugin extends AbstractSignatureWebPlugin {
   // Generates a 16-byte random string and encodes it in Base64 format
   private String generateRandom() {
     SecureRandom random = new SecureRandom();
-    byte bytes[] = new byte[16];
+    byte[] bytes = new byte[16];
     random.nextBytes(bytes);
     return org.apache.commons.codec.binary.Base64.encodeBase64String(bytes);
   }
 
   // -----------------------------
 
-  /**
+  /*
    * 
    * @param username
    *          (opcional)
@@ -1821,9 +1816,6 @@ public class FNMTCloudSignatureWebPlugin extends AbstractSignatureWebPlugin {
     return null;
   }
   
-  
-
-
 
   /**
    * 
@@ -1937,7 +1929,7 @@ public String getAlgorithmPolicy(String algorithmPolicy) {
   /**
    * Method that builds the timestamp request.
    * @return a bytes array that represents the timestamp request.
-   * @throws TSAServiceInvokerException If the method fails.
+   * @throws Exception If the method fails.
    */
   private byte[] generateDigestForTSA(byte[] dataToStamp, ITimeStampGenerator tsgen)
       throws Exception {

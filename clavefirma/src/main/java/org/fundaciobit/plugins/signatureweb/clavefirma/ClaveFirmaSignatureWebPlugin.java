@@ -840,10 +840,9 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
           + relativePluginRequestPath);
       log.info("firmarPreDesDeCertgenerat:: QUERY = |" + query + "|");
 
-      Map<Object, Object> params = request.getParameterMap();
-      for (Object key : params.keySet()) {
-        log.info("firmarPreDesDeCertgenerat():: param[" + key + "] = "
-            + ((String[]) params.get(key))[0]);
+      Map<String, String[]> params = request.getParameterMap();
+      for (String key : params.keySet()) {
+        log.info("firmarPreDesDeCertgenerat():: param[" + key + "] = " + params.get(key)[0]);
       }
     }
 
@@ -896,16 +895,15 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
 
     final boolean debug = isDebug();
 
-    Map<Object, Object> params = null;
     if (debug) {
       log.debug("firmarPre::absolutePluginRequestPath=" + absolutePluginRequestPath);
       log.debug("firmarPre::relativePluginRequestPath=" + relativePluginRequestPath);
 
       log.info("firmarPre:: QUERY = |" + query + "|");
 
-      params = request.getParameterMap();
-      for (Object key : params.keySet()) {
-        log.info("firmarPre():: param[" + key + "] = " + ((String[]) params.get(key))[0]);
+      Map<String, String[]> params = request.getParameterMap();
+      for (String key : params.keySet()) {
+        log.info("firmarPre():: param[" + key + "] = " + params.get(key)[0]);
       }
     }
 
@@ -1230,15 +1228,17 @@ public class ClaveFirmaSignatureWebPlugin extends AbstractMiniAppletSignaturePlu
       HttpServletResponse response, SignaturesSetWeb signaturesSet, int signatureIndex,
       String query, Locale locale) {
     final boolean debug = isDebug();
-    final Map<Object, Object> params = request.getParameterMap();
+
+    final Map<String, String[]> params = request.getParameterMap();
+
     if (debug) {
       log.info("signErrorPage:: S'ha rebut una cridada a la URL d'ERROR: signaturesSetID = "
           + signaturesSet.getSignaturesSetID());
 
       log.info("signErrorPage:: QUERY = |" + query + "|");
 
-      for (Object key : params.keySet()) {
-        log.info("signErrorPage():: param[" + key + "] = " + ((String[]) params.get(key))[0]);
+      for (String key : params.keySet()) {
+        log.info("signErrorPage():: param[" + key + "] = " + params.get(key)[0]);
       }
     }
 

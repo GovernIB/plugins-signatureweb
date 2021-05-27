@@ -300,13 +300,12 @@ public abstract class AbstractSignatureWebPlugin
   public void finishWithError(HttpServletResponse response, SignaturesSetWeb signaturesSet,
       String errorMsg, Throwable th) {
     if (th == null) {
-      log.error(errorMsg, new Exception());
+      log.error(errorMsg);
     } else {
       log.error(errorMsg, th);
     }
 
     StatusSignaturesSet sss = signaturesSet.getStatusSignaturesSet();
-
     sss.setErrorMsg(errorMsg);
     sss.setErrorException(th);
     sss.setStatus(StatusSignaturesSet.STATUS_FINAL_ERROR);
