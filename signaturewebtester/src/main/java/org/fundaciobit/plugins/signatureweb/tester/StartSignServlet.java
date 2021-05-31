@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.Collections;
 import java.util.Date;
 import java.util.UUID;
 
@@ -31,9 +32,6 @@ public class StartSignServlet extends HttpServlet {
 
     @Inject
     private PluginMapBean pluginMapBean;
-
-    @Inject
-    private SignTransaction signTransaction;
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -63,7 +61,7 @@ public class StartSignServlet extends HttpServlet {
 
         String signaturesSetID = UUID.randomUUID().toString();
         String urlFinal = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() +
-                request.getContextPath() + "/endSign?cid=" + signaturesSetID;
+                request.getContextPath() + "/endSign?ssid=" + signaturesSetID;
 
         CommonInfoSignature commonInfoSignature = new CommonInfoSignature("ca", "", null, "99999999R");
 
@@ -75,7 +73,20 @@ public class StartSignServlet extends HttpServlet {
                 urlFinal);
 
         try {
-            signTransaction.start(signaturesSetWeb, plugin, request, response);
+            ISignatureWebPlugin plugin = pluginMapBean.getPlugin(pluginName);
+
+            String filterError = plugin.filter(request, signaturesSetWeb, Collections.emptyMap());
+            if (filterError != null) {
+                response.sendError(500, filterError);
+            }
+
+            getServletContext().setAttribute(signaturesSetID, plugin);
+            RequestTransactionInfo info = new RequestTransactionInfo(signaturesSetID, -1, "/plugin", request);
+            String returnUrl = plugin.signDocuments(request,
+                    info.getBaseAbsoluta(), info.getBaseRelativa(),
+                    signaturesSetWeb, Collections.emptyMap());
+            response.sendRedirect(returnUrl);
+
         } catch (Exception e) {
             throw new ServletException(e);
         }

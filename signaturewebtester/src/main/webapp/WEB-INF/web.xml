@@ -6,14 +6,4 @@
 
     <display-name>Signature Web Tester</display-name>
 
-    <filter-mapping>
-        <filter-name>Plugin Conversation Filter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-
-    <filter-mapping>
-        <filter-name>CDI Conversation Filter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-
 </web-app>
