@@ -14,6 +14,10 @@
             <input type="file" name="fitxer">
         </p>
         <p>
+            <label id="nifLabel" for="nif">NIF:</label>
+            <input type="text" name="nif" value="99999999R">
+        </p>
+        <p>
             <label id="pluginNameLabel" for="pluginName">Plugin:</label>
             <select name="pluginName">
                 <c:forEach items="${pluginMapBean.pluginNames}" var="pluginName">

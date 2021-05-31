@@ -47,7 +47,12 @@ public class StartSignServlet extends HttpServlet {
             response.sendError(400, "Nom de plugin invàlid: " + pluginName);
             return;
         }
-        ISignatureWebPlugin plugin = pluginMapBean.getPlugin(pluginName);
+
+        String nif = request.getParameter("nif");
+        if (nif == null || nif.isEmpty()) {
+            response.sendError(400, "NIF invàlid: " + nif);
+            return;
+        }
 
         Path tempFile = Files.createTempFile("sign", "temp");
         try (var os = new FileOutputStream(tempFile.toFile());
@@ -63,7 +68,7 @@ public class StartSignServlet extends HttpServlet {
         String urlFinal = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() +
                 request.getContextPath() + "/endSign?ssid=" + signaturesSetID;
 
-        CommonInfoSignature commonInfoSignature = new CommonInfoSignature("ca", "", null, "99999999R");
+        CommonInfoSignature commonInfoSignature = new CommonInfoSignature("ca", "", null, nif);
 
         SignaturesSetWeb signaturesSetWeb = new SignaturesSetWeb(
                 signaturesSetID,
