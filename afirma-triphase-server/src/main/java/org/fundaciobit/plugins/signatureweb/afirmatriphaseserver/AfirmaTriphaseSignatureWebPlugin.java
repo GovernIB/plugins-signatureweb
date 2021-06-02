@@ -122,6 +122,10 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     return log.isDebugEnabled() || "true".equalsIgnoreCase(getProperty(AUTOFIRMA_BASE_PROPERTIES + "debug"));
   }
 
+  protected boolean isHeadless() {
+    return "true".equalsIgnoreCase(getProperty(AUTOFIRMA_BASE_PROPERTIES + "headless"));
+  }
+
   protected Integer getTimeOutBase() {
     String timeoutbase = getProperty(AUTOFIRMA_BASE_PROPERTIES + "timeoutbase");
     
@@ -1664,6 +1668,11 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         status.setSignedData(null);
         status.setErrorException(e);
       }
+    }
+
+    if (isHeadless()) {
+      configProperties.put("filters", "subject.contains:" + signaturesSet.getCommonInfoSignature().getAdministrationID());
+      configProperties.put("headless", "true");
     }
 
     if (debug) {

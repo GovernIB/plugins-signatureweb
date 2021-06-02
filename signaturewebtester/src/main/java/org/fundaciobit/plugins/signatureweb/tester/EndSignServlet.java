@@ -1,6 +1,8 @@
 package org.fundaciobit.plugins.signatureweb.tester;
 
+import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
+import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.ISignatureWebPlugin;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 
@@ -9,9 +11,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 @WebServlet("/endSign")
 public class EndSignServlet extends HttpServlet {
@@ -38,19 +40,57 @@ public class EndSignServlet extends HttpServlet {
             SignaturesSetWeb signaturesSetWeb = plugin.getSignaturesSet(ssid);
             plugin.closeSignaturesSet(request, ssid);
 
-            PrintWriter writer = response.getWriter();
-            writer.println("Transacció acabada");
-            writer.println(signaturesSetWeb.getStatusSignaturesSet().getStatus()
-                    + " " + signaturesSetWeb.getStatusSignaturesSet().getErrorMsg());
+            checkStatus(signaturesSetWeb.getStatusSignaturesSet());
 
-            StatusSignature statusSignature = signaturesSetWeb.getFileInfoSignatureArray()[0].getStatusSignature();
-            if (statusSignature.getSignedData() != null) {
-                writer.println(statusSignature.getSignedData().getPath());
-                writer.println(statusSignature.getSignedData().length());
+            FileInfoSignature fileInfoSignature = signaturesSetWeb.getFileInfoSignatureArray()[0];
+            StatusSignature statusSignature = fileInfoSignature.getStatusSignature();
+            checkStatus(statusSignature);
+
+            File signedData = statusSignature.getSignedData();
+            response.setContentLengthLong(signedData.length());
+            response.setContentType(signResultContentType(fileInfoSignature.getMimeType()));
+            String fileName = "result" + System.currentTimeMillis() + signResultExtension(fileInfoSignature.getMimeType());
+            response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+            try (var inputStream = new FileInputStream(signedData)) {
+                inputStream.transferTo(response.getOutputStream());
+            } finally {
+                if (!signedData.delete()) {
+                    signedData.deleteOnExit();
+                }
             }
 
         } catch (Exception e) {
             throw new ServletException(e);
         }
     }
+
+    private void checkStatus(StatusSignaturesSet statusSignaturesSet) throws ServletException {
+        if (statusSignaturesSet.getStatus() != StatusSignaturesSet.STATUS_FINAL_OK) {
+            throw new ServletException(statusSignaturesSet.getErrorMsg());
+        }
+    }
+
+    private String signResultContentType(String contentType) {
+        switch (contentType) {
+            case "application/pdf":
+            case "application/xml":
+            case "text/xml":
+                return contentType;
+            default:
+                return "application/octet-stream";
+        }
+    }
+
+    private String signResultExtension(String contentType) {
+        switch (contentType) {
+            case "application/pdf":
+                return ".pdf";
+            case "application/xml":
+            case "text/xml":
+                return ".xsig";
+            default:
+                return ".csig";
+        }
+    }
+
 }

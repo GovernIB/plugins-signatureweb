@@ -3,10 +3,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Això era i no era una pàgina per signar</title>
+    <title>Pàgina per signar</title>
 </head>
 <body>    
-    <h1>Això era i no era una pàgina per signar</h1>
+    <h1>Pàgina per signar</h1>
     <c:url value="/startSign" var="formAction" />
     <form id="signForm" method="post" action="${formAction}" enctype="multipart/form-data">
         <p>

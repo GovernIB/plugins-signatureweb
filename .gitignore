@@ -10,3 +10,7 @@ target/
 .idea/
 # Fitxers de projecte de Netbeans
 nb-configuration.xml
+#
+# Fitxes de configuració específics de l'aplicació
+/signaturewebtester/test.properties
+/signaturewebtester/plugin.properties

@@ -66,7 +66,7 @@ public class StartSignServlet extends HttpServlet {
 
         String signaturesSetID = UUID.randomUUID().toString();
         String urlFinal = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() +
-                request.getContextPath() + "/endSign?ssid=" + signaturesSetID;
+                request.getContextPath() + "/signResult?ssid=" + signaturesSetID;
 
         CommonInfoSignature commonInfoSignature = new CommonInfoSignature("ca", "", null, nif);
 
