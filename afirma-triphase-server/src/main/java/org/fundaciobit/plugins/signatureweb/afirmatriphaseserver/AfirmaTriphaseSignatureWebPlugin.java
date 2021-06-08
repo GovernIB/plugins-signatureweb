@@ -7,7 +7,6 @@ import es.gob.afirma.signers.batch.server.BatchPostsigner;
 import es.gob.afirma.signers.batch.server.BatchPresigner;
 import es.gob.afirma.signers.tsp.pkcs7.CMSTimestamper;
 import es.gob.afirma.signers.tsp.pkcs7.TsaParams;
-import es.gob.afirma.signfolder.server.proxy.RetrieveConfig;
 import es.gob.afirma.signfolder.server.proxy.RetrieveService;
 import es.gob.afirma.signfolder.server.proxy.StorageService;
 import es.gob.afirma.triphase.server.SignatureService;
@@ -47,6 +46,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.net.MalformedURLException;
 import java.net.SocketException;
 import java.net.URL;
@@ -2504,26 +2504,20 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
   private void init() {
 
     try {
-      Field configField;
-      configField = SignatureService.class.getDeclaredField("config");
+      Field configField = SignatureService.class.getDeclaredField("config");
       configField.setAccessible(true);
 
       // Valors NO REALS, nomes per inicialitzar el sistema !!!!
       Properties config = (Properties) configField.get(null);
 
       config.put("overwrite", "true");
-      config
-          .put(
-              "outdir",
-              "D:/dades/dades/CarpetesPersonals/Programacio/portafib-1.1-jboss-5.1.0.GA/server/default/deployportafib/triphaseout");
-      config
-          .put(
-              "indir",
-              "D:/dades/dades/CarpetesPersonals/Programacio/portafib-1.1-jboss-5.1.0.GA/server/default/deployportafib/triphasein");
+      // Aquests valors no s'empren
+      config.put("outdir", "C:/triphaseout");
+      config.put("indir", "C://triphasein");
       config.put("alternative.xmldsig", "false");
       config.put("Access-Control-Allow-Origin", "*");
       config.put(CONFIG_PARAM_DOCUMENT_MANAGER_CLASS,
-          "es.gob.afirma.triphase.server.document.FileSystemDocumentManager");
+              "es.gob.afirma.triphase.server.document.FileSystemDocumentManager");
 
       DocumentManager DOC_MANAGER = this;
 
@@ -2536,30 +2530,18 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     }
     
     try {
+      Class<?> rtClazz = Class.forName("es.gob.afirma.signfolder.server.proxy.RetrieveConfig");
+      Field field = rtClazz.getDeclaredField("EXPIRATION_TIME");
+      field.setAccessible(true);
 
-      // Es per inicialitzar els camps estatics
-      new RetrieveService(); 
+      Field modifiersField = Field.class.getDeclaredField("modifiers");
+      modifiersField.setAccessible(true);
+      modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
 
-      // Llegir el Retrieve Config
-      Field retrieveConfigField;
-      retrieveConfigField = RetrieveService.class.getDeclaredField("CONFIG");
-      retrieveConfigField.setAccessible(true);
+      // fixam 10 minuts
+      field.setLong(null, 600_000L);
 
-      RetrieveConfig retrieveConfig = (RetrieveConfig) retrieveConfigField.get(null);
-
-      // Modificam les Propietats del camp config de RetrieveConfig
-      Field configField;
-      configField =  RetrieveConfig.class.getDeclaredField("config");
-      configField.setAccessible(true);
-
-
-      // Valors NO REALS, nomes per inicialitzar el sistema !!!!
-      Properties config = (Properties) configField.get(retrieveConfig);
-
-      // Posam 10 minuts a pinyo fix
-      config.put("expTime", "600000");
-
-      log.info("RetrieveConfig::getExpirationTime() ==> " + retrieveConfig.getExpirationTime() );
+      log.info("RetrieveConfig::getExpirationTime() ==> " + field.get(null) );
 
     } catch (Exception e) {
       log.error("Error inicialitzant expTime de RetrieveService: " + e.getMessage(), e);

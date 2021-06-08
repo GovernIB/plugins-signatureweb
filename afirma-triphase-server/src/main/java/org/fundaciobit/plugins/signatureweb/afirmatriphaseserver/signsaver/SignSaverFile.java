@@ -22,24 +22,17 @@ import es.gob.afirma.signers.batch.SingleSign;
  *
  */
 public class SignSaverFile implements SignSaver {
+
   public static final String PROP_FILENAME = "FileName";
     
   // KEY -> ID de firma || VALUE => Indica la data d'expiració
   private static final Map<String, Long> processedFiles = new HashMap<String, Long>();
-  
-  
+
   private Logger log = Logger.getLogger(SignSaverFile.class);
   
   private String filename;
   
   private boolean debug;
-
-  public SignSaverFile(String targetFileName) { //, String *** afirmaTriphaseSignatureWebPluginInstance) {
-    if (targetFileName == null) {
-      throw new IllegalArgumentException("El nombre de fichero no puede ser nulo");
-    }
-    this.filename = targetFileName;
-  }
 
   public SignSaverFile() {
   }
@@ -96,7 +89,11 @@ public class SignSaverFile implements SignSaver {
     if (debug) {
       log.info("Inicialitzat SignSaverFile amb fitxer: " + this.filename);
     }
-    
+  }
+
+  @Override
+  public boolean isInitialized() {
+    return this.filename != null;
   }
 
   @Override
@@ -157,8 +154,6 @@ public class SignSaverFile implements SignSaver {
 
         nextCheck = System.currentTimeMillis() + FIVE_MINUTES;
       }
-      
-      
     }
   }
   

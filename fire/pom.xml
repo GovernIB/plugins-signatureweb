@@ -71,13 +71,13 @@
     <dependency>
       <artifactId>afirma-crypto-core-pkcs7-tsp</artifactId>
       <groupId>es.gob.afirma</groupId>
-      <version>3.3.2-SNAPSHOT</version>
+      <version>1.6.5</version>
     </dependency>
 
     <dependency>
       <groupId>es.gob.afirma</groupId>
       <artifactId>afirma-core</artifactId>
-      <version>3.3.2-SNAPSHOT</version>
+      <version>1.6.5</version>
     </dependency>
 
     <!--  FINAL LLIBRERIES DE FIRE -->
