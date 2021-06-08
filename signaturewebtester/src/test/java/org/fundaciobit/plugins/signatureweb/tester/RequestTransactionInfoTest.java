@@ -32,7 +32,6 @@ public class RequestTransactionInfoTest {
     @Test
     public void testRequest() {
 
-
         RequestTransactionInfo info = new RequestTransactionInfo(new HttpServletRequest() {
             @Override
             public String getAuthType() {

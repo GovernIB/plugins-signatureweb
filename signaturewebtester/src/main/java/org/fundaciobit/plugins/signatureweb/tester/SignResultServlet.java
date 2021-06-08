@@ -36,6 +36,4 @@ public class SignResultServlet extends HttpServlet {
 
         getServletContext().getRequestDispatcher("/result.jsp").forward(request, response);
     }
-
-
 }

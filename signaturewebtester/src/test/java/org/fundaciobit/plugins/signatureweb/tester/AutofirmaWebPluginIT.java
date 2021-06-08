@@ -4,10 +4,9 @@ import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.WebRequest;
 import com.gargoylesoftware.htmlunit.WebResponse;
-import com.gargoylesoftware.htmlunit.attachment.Attachment;
-import com.gargoylesoftware.htmlunit.attachment.AttachmentHandler;
 import com.gargoylesoftware.htmlunit.html.HtmlFileInput;
 import com.gargoylesoftware.htmlunit.util.WebConnectionWrapper;
+import org.apache.http.client.fluent.Request;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -20,7 +19,6 @@ import org.openqa.selenium.htmlunit.HtmlUnitWebElement;
 import org.openqa.selenium.support.ui.Select;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.concurrent.TimeUnit;
@@ -31,37 +29,17 @@ public class AutofirmaWebPluginIT extends AbstractPluginIT {
 
     @Before
     public void before() {
-
         // per qualque motiu desconegut, emprant CHROME, no funciona bé les cridades que es fan a isfinished per
         // saber quan ha acabat la signature
         driver = new HtmlUnitDriver(BrowserVersion.FIREFOX, true) {
-
             @Override
             protected WebClient modifyWebClient(WebClient client) {
-                final WebClient webClient = super.modifyWebClient(client);
-                webClient.getOptions().setCssEnabled(false);
-
-                webClient.setAttachmentHandler((AttachmentHandler) page -> {
-                    Attachment attachment = new Attachment(page);
-                    String fileName = attachment.getSuggestedFilename();
-                    WebResponse response = page.getWebResponse();
-
-                    try (var is = response.getContentAsStream();
-                         var os = new FileOutputStream(new File("target", fileName))) {
-                        is.transferTo(os);
-                    } catch (IOException ioException) {
-                        throw new RuntimeException("Error copiant fitxer", ioException);
-                    }
-                });
-
-                new WebConnectionWrapper(webClient) {
-
+                client.getOptions().setCssEnabled(false);
+                new WebConnectionWrapper(client) {
                     public WebResponse getResponse(WebRequest request) throws IOException {
                         // Capturam la URL de protocol que invocarà el JS de miniapplet
                         if (request.getUrl().getProtocol().equals("afirma")) {
-
                             String arg = request.getUrl().toString();
-
                             Process autofirmaProcess = new ProcessBuilder().inheritIO()
                                     .command("AutoFirma", arg)
                                     .start();
@@ -72,14 +50,12 @@ public class AutofirmaWebPluginIT extends AbstractPluginIT {
                                 Thread.currentThread().interrupt();
                             }
                         }
-
                         return super.getResponse(request);
                     }
                 };
-                return webClient;
+                return client;
             }
         };
-
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.manage().timeouts().setScriptTimeout(10, TimeUnit.SECONDS);
     }
@@ -90,7 +66,7 @@ public class AutofirmaWebPluginIT extends AbstractPluginIT {
     }
 
     @Test
-    public void testSignPdf() throws URISyntaxException {
+    public void testSignPdf() throws URISyntaxException, IOException {
         driver.get(endpoint);
 
         WebElement fitxerElement = driver.findElement(By.name("fitxer"));
@@ -107,11 +83,13 @@ public class AutofirmaWebPluginIT extends AbstractPluginIT {
         driver.findElement(By.cssSelector("input[type='submit']")).submit();
 
         Assert.assertEquals("2", driver.findElement(By.id("status")).getText());
-        driver.findElement(By.id("endSignLink")).click();
+
+        String link = driver.findElement(By.id("endSignLink")).getAttribute("href");
+        Request.Get(link).execute().saveContent(new File("autofirma" + System.currentTimeMillis() + ".pdf"));
     }
 
     @Test
-    public void testSignXml() throws URISyntaxException {
+    public void testSignXml() throws URISyntaxException, IOException {
         driver.get(endpoint);
 
         WebElement fitxerElement = driver.findElement(By.name("fitxer"));
@@ -128,6 +106,8 @@ public class AutofirmaWebPluginIT extends AbstractPluginIT {
         driver.findElement(By.cssSelector("input[type='submit']")).submit();
 
         Assert.assertEquals("2", driver.findElement(By.id("status")).getText());
-        driver.findElement(By.id("endSignLink")).click();
+
+        String link = driver.findElement(By.id("endSignLink")).getAttribute("href");
+        Request.Get(link).execute().saveContent(new File("autofirma" + System.currentTimeMillis() + ".xsig"));
     }
 }

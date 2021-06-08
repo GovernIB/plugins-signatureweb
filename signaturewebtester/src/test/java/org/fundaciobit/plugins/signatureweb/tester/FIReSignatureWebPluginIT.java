@@ -2,10 +2,8 @@ package org.fundaciobit.plugins.signatureweb.tester;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.WebResponse;
-import com.gargoylesoftware.htmlunit.attachment.Attachment;
-import com.gargoylesoftware.htmlunit.attachment.AttachmentHandler;
 import com.gargoylesoftware.htmlunit.html.HtmlFileInput;
+import org.apache.http.client.fluent.Request;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -18,7 +16,6 @@ import org.openqa.selenium.htmlunit.HtmlUnitWebElement;
 import org.openqa.selenium.support.ui.Select;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
@@ -29,26 +26,10 @@ public class FIReSignatureWebPluginIT extends AbstractPluginIT {
     @Before
     public void before() {
         driver = new HtmlUnitDriver(BrowserVersion.CHROME, true) {
-
             @Override
             protected WebClient modifyWebClient(WebClient client) {
-                final WebClient webClient = super.modifyWebClient(client);
-                webClient.getOptions().setCssEnabled(false);
-
-                webClient.setAttachmentHandler((AttachmentHandler) page -> {
-                    Attachment attachment = new Attachment(page);
-                    String fileName = attachment.getSuggestedFilename();
-                    WebResponse response = page.getWebResponse();
-
-                    try (var is = response.getContentAsStream();
-                         var os = new FileOutputStream(new File("target", fileName))) {
-                        is.transferTo(os);
-                    } catch (IOException ioException) {
-                        throw new RuntimeException("Error copiant fitxer", ioException);
-                    }
-                });
-
-                return webClient;
+                client.getOptions().setCssEnabled(false);
+                return client;
             }
         };
     }
@@ -59,7 +40,7 @@ public class FIReSignatureWebPluginIT extends AbstractPluginIT {
     }
 
     @Test
-    public void testSignPdf() throws URISyntaxException {
+    public void testSignPdf() throws URISyntaxException, IOException {
         driver.get(endpoint);
 
         WebElement fitxerElement = driver.findElement(By.name("fitxer"));
@@ -81,12 +62,12 @@ public class FIReSignatureWebPluginIT extends AbstractPluginIT {
 
         Assert.assertEquals("2", driver.findElement(By.id("status")).getText());
 
-        driver.findElement(By.id("endSignLink")).click();
-
+        String link = driver.findElement(By.id("endSignLink")).getAttribute("href");
+        Request.Get(link).execute().saveContent(new File("fire" + System.currentTimeMillis() + ".pdf"));
     }
 
     @Test
-    public void testSignXml() throws URISyntaxException {
+    public void testSignXml() throws URISyntaxException, IOException {
         driver.get(endpoint);
 
         WebElement fitxerElement = driver.findElement(By.name("fitxer"));
@@ -108,6 +89,8 @@ public class FIReSignatureWebPluginIT extends AbstractPluginIT {
 
         Assert.assertEquals("2", driver.findElement(By.id("status")).getText());
 
-        driver.findElement(By.id("endSignLink")).click();
+        String link = driver.findElement(By.id("endSignLink")).getAttribute("href");
+        Request.Get(link).execute().saveContent(new File("fire" + System.currentTimeMillis() + ".xsig"));
     }
+
 }
