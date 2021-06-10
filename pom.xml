@@ -13,8 +13,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <jboss-eap.version>7.2.9.GA</jboss-eap.version>
-
         <pluginsib.signatureserver.version>3.1.0-SNAPSHOT</pluginsib.signatureserver.version>
+        <afirma.version>1.6.5</afirma.version>
+        <junit.version>4.13.2</junit.version>
+        <log4j.version>1.2.14</log4j.version>
     </properties>
 
     <modules>
@@ -27,15 +29,6 @@
         <module>afirma-triphase-server</module>
         <module>signaturewebtester</module>
     </modules>
-
-    <profiles>
-        <profile>
-            <id>afirma-triphase-server-lib</id>
-            <modules>
-                <module>afirma-triphase-server-lib</module>
-            </modules>
-        </profile>
-    </profiles>
 
     <dependencyManagement>
         <dependencies>
@@ -58,17 +51,17 @@
         </dependency>
 
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.2</version>
-            <scope>test</scope>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.14</version>
-            <scope>provided</scope>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -159,6 +152,34 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>afirma-triphase-server-lib</id>
+            <modules>
+                <module>afirma-triphase-server-lib</module>
+            </modules>
+        </profile>
+        <profile>
+            <!-- Profile per executar els tests d'integració -->
+            <id>testsIntegracio</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <repositories>
         <repository>

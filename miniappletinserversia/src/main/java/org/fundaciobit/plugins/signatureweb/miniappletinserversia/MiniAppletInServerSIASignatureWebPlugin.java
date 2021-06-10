@@ -72,8 +72,8 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
   private static final String CACHE_MAX_ENTRIES = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "cacheMaxEntries";
   private static final String CACHE_MAX_TIME_TO_LIVE = MINIAPPLETINSERVERSIA_BASE_PROPERTIES + "cacheMaxTimeToLive";
 
-  private final Map<String, Map<String,MiniAppletInServerSIASigner>> processosDeFirma = new ConcurrentHashMap<String,Map<String,MiniAppletInServerSIASigner>>();
-  private final Map<String, String> transactions = new ConcurrentHashMap<String, String>();
+  private final Map<String, Map<String,MiniAppletInServerSIASigner>> processosDeFirma = new ConcurrentHashMap<>();
+  private final Map<String, String> transactions = new ConcurrentHashMap<>();
 
   public MiniAppletInServerSIASignatureWebPlugin() {
     super();
@@ -318,11 +318,11 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
 
       String baseSignaturesSet = relativePluginRequestPath.substring(0, pos - 1);
 
-      Map<String, MiniAppletInServerSIASigner> procesDeFirmaMap = new HashMap<String, MiniAppletInServerSIASigner>();
+      Map<String, MiniAppletInServerSIASigner> procesDeFirmaMap = new HashMap<>();
 
       this.processosDeFirma.put(signaturesSetID, procesDeFirmaMap);
 
-      List<DocumentsToSign> _documents = new ArrayList<DocumentsToSign>();
+      List<DocumentsToSign> _documents = new ArrayList<>();
 
       String algorithmSIA = null;
 
@@ -569,7 +569,7 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
 
         List<SignsInfo> firmesList = resultat.getSigns();
 
-        Map<String, byte[]> firmesMap = new HashMap<String, byte[]>();
+        Map<String, byte[]> firmesMap = new HashMap<>();
 
         for (SignsInfo signsInfo : firmesList) {
           firmesMap.put(signsInfo.getIdData(), signsInfo.getSign());
@@ -789,7 +789,7 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
     PrintWriter outS =  generateHeader(request, response, absolutePluginRequestPath, 
         relativePluginRequestPath, locale.getLanguage(), sai, signaturesSet);
     
-    outS.println(sw.toString());
+    outS.println(sw);
     
     generateFooter(outS, sai, signaturesSet);
     
@@ -845,7 +845,7 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
     }
 
     List<CertificateInfo> certificates = qcr.getCertificates();
-    Map<String, CertificateInfo> certmap = new HashMap<String, CertificateInfo>(certificates.size());
+    Map<String, CertificateInfo> certmap = new HashMap<>(certificates.size());
 
     final boolean debug = log.isDebugEnabled();
     if (debug) {
@@ -962,7 +962,6 @@ public class MiniAppletInServerSIASignatureWebPlugin extends AbstractMiniAppletS
         newUser = username;
       }
     }
-    
 
     if (debug) {
       log.debug("getSIAUser:: RETURN " + newUser);

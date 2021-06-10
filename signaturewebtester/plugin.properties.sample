@@ -1,9 +1,10 @@
 
-plugins.signatureweb=fortress,fire,autofirma
+plugins.signatureweb=fortress,fire,autofirma,miniappletinserversia
 
 plugins.signatureweb.fortress.class=org.fundaciobit.pluignsib.signatureweb.fortress.FortressSignatureWebPlugin
 plugins.signatureweb.fire.class=org.fundaciobit.plugins.signatureweb.fire.FIReSignatureWebPlugin
 plugins.signatureweb.autofirma.class=org.fundaciobit.plugins.signatureweb.afirmatriphaseserver.AfirmaTriphaseSignatureWebPlugin
+plugins.signatureweb.miniappletinserversia.class=org.fundaciobit.plugins.signatureweb.miniappletinserversia.MiniAppletInServerSIASignatureWebPlugin
 
 pluginsib.signatureweb.fortress.url=https://pre.firmacloud.com/fortress/
 pluginsib.signatureweb.fortress.client_id=client
@@ -36,3 +37,10 @@ plugins.signatureweb.autofirma.debug=true
 plugins.signatureweb.autofirma.headless=false
 plugins.signatureweb.autofirma.firefoxinwindowsuseoskeystore=true
 plugins.signatureweb.autofirma.timeoutbase=600
+
+plugins.signatureweb.miniappletinserversia.URL_GATEWAY=https://gateway.pre.sia.es/rss-gateway/HESS/OperationGateWayRSS
+plugins.signatureweb.miniappletinserversia.AUTH_STORE=C:/ruta/certificat.p12
+plugins.signatureweb.miniappletinserversia.AUTH_STORE_PASS=pass
+plugins.signatureweb.miniappletinserversia.SSL_PROTOCOL=TLSv1
+plugins.signatureweb.miniappletinserversia.ForceSFDA=false
+plugins.signatureweb.miniappletinserversia.userspattern=XXX_{1}

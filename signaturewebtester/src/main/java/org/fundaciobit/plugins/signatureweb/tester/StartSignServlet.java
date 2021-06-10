@@ -82,7 +82,9 @@ public class StartSignServlet extends HttpServlet {
 
             String filterError = plugin.filter(request, signaturesSetWeb, Collections.emptyMap());
             if (filterError != null) {
+                log("Filter error: " + filterError);
                 response.sendError(500, filterError);
+                return;
             }
 
             getServletContext().setAttribute(signaturesSetID, plugin);
