@@ -39,9 +39,10 @@ public class AutofirmaWebPluginIT extends AbstractPluginIT {
                     public WebResponse getResponse(WebRequest request) throws IOException {
                         // Capturam la URL de protocol que invocarà el JS de miniapplet
                         if (request.getUrl().getProtocol().equals("afirma")) {
+                            String command = getConfig("autofirma.command");
                             String arg = request.getUrl().toString();
                             Process autofirmaProcess = new ProcessBuilder().inheritIO()
-                                    .command("AutoFirma", arg)
+                                    .command(command, arg)
                                     .start();
 
                             try {
@@ -77,6 +78,8 @@ public class AutofirmaWebPluginIT extends AbstractPluginIT {
             htmlFileInput.setContentType("application/pdf");
         }
 
+        driver.findElement(By.name("nif")).sendKeys(getConfig("autofirma.nif"));
+
         Select select = new Select(driver.findElement(By.name("pluginName")));
         select.selectByValue("autofirma");
         driver.findElement(By.name("pluginName")).click();
@@ -99,6 +102,8 @@ public class AutofirmaWebPluginIT extends AbstractPluginIT {
             HtmlFileInput htmlFileInput = (HtmlFileInput) ((HtmlUnitWebElement) fitxerElement).getAuxiliary();
             htmlFileInput.setContentType("text/xml");
         }
+
+        driver.findElement(By.name("nif")).sendKeys(getConfig("autofirma.nif"));
 
         Select select = new Select(driver.findElement(By.name("pluginName")));
         select.selectByValue("autofirma");

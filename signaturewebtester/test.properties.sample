@@ -3,3 +3,28 @@
 # Tenir en compte que no podem emprar localhost o 127.0.0.1, ja que Autofirma no permet
 # executar-se contra aquestes adreces, cal posar una altre adreça de la màquina
 endpoint=http://192.168.1.100:8080/signaturewebtester/
+
+# Plugin FIRe
+fire.nif=99999999R
+fire.pin=1234
+
+# Plugin ViaFirma Fortress
+fortress.nif=99999999R
+fortress.pin=1234
+
+# Plugin Autofirma. Cal que estigui instal·lat dins el magatzem el certificat, sense demanar autorització si es vol
+# que estigui totalment automatitzat.
+autofirma.nif=99999999R
+# Commanda per invocar autofirma. Indicar el path complet si l'executable no està dins el path per defecte.
+autofirma.command=AutoFirma
+
+# Plugin servei cloud de SIA
+sia.nif=99999999R
+sia.pin=1234
+
+# Plugin de FNMTCloud
+fnmtcloud.nif=99999999R
+fnmtcloud.password=demodemo
+# Codi per generar claus amb Google Authenticator (TOTP)
+fnmtcloud.secret=abcd efgh jklm opqr stuv wzyz 1234 5678
+fnmtcloud.pin=1234

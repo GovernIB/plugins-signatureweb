@@ -10,7 +10,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
@@ -35,7 +34,7 @@ public class FortressPluginIT extends AbstractPluginIT {
                 return client;
             }
         };
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
     }
 
     @After
@@ -55,16 +54,14 @@ public class FortressPluginIT extends AbstractPluginIT {
         HtmlFileInput htmlFileInput = (HtmlFileInput) ((HtmlUnitWebElement) fitxerElement).getAuxiliary();
         htmlFileInput.setContentType("application/pdf");
 
-        WebElement nif = driver.findElement(By.name("nif"));
-        nif.clear();
-        nif.sendKeys("62800225J");
+        driver.findElement(By.name("nif")).sendKeys(getConfig("fortress.nif"));
 
         Select select = new Select(driver.findElement(By.name("pluginName")));
         select.selectByValue("fortress");
         driver.findElement(By.name("pluginName")).click();
         driver.findElement(By.cssSelector("input[type='submit']")).submit();
 
-        driver.findElement(By.id("verify-code")).sendKeys("1234");
+        driver.findElement(By.id("verify-code")).sendKeys(getConfig("fortress.pin"));
 
         // Woraround. Amb Vaddin (el framework que empra fortress) no va bé només fer click
         // cal fer un dblClick, i per fer-lo cal emprar l'api interna de htmlunit.
@@ -89,16 +86,14 @@ public class FortressPluginIT extends AbstractPluginIT {
         HtmlFileInput htmlFileInput = (HtmlFileInput) ((HtmlUnitWebElement) fitxerElement).getAuxiliary();
         htmlFileInput.setContentType("text/xml");
 
-        WebElement nif = driver.findElement(By.name("nif"));
-        nif.clear();
-        nif.sendKeys("62800225J");
+        driver.findElement(By.name("nif")).sendKeys(getConfig("fortress.nif"));
 
         Select select = new Select(driver.findElement(By.name("pluginName")));
         select.selectByValue("fortress");
         driver.findElement(By.name("pluginName")).click();
         driver.findElement(By.cssSelector("input[type='submit']")).submit();
 
-        driver.findElement(By.id("verify-code")).sendKeys("1234");
+        driver.findElement(By.id("verify-code")).sendKeys(getConfig("fortress.pin"));
 
         // Woraround. Amb Vaddin (el framework que empra fortress) no va bé només fer click
         // cal fer un dblClick, i per fer-lo cal emprar l'api interna de htmlunit.

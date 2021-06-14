@@ -1,10 +1,11 @@
 
-plugins.signatureweb=fortress,fire,autofirma,miniappletinserversia
+plugins.signatureweb=fortress,fire,autofirma,miniappletinserversia,fnmtcloud
 
 plugins.signatureweb.fortress.class=org.fundaciobit.pluignsib.signatureweb.fortress.FortressSignatureWebPlugin
 plugins.signatureweb.fire.class=org.fundaciobit.plugins.signatureweb.fire.FIReSignatureWebPlugin
 plugins.signatureweb.autofirma.class=org.fundaciobit.plugins.signatureweb.afirmatriphaseserver.AfirmaTriphaseSignatureWebPlugin
 plugins.signatureweb.miniappletinserversia.class=org.fundaciobit.plugins.signatureweb.miniappletinserversia.MiniAppletInServerSIASignatureWebPlugin
+plugins.signatureweb.fnmtcloud.class=org.fundaciobit.pluginsib.signatureweb.fnmtcloud.FNMTCloudSignatureWebPlugin
 
 pluginsib.signatureweb.fortress.url=https://pre.firmacloud.com/fortress/
 pluginsib.signatureweb.fortress.client_id=client
@@ -17,7 +18,6 @@ plugins.signatureweb.fire.procedure=PROCEDURE
 plugins.signatureweb.fire.certOrigin=clavefirma
 plugins.signatureweb.fire.appName=Test
 plugins.signatureweb.fire.fireUrl=https://127.0.0.1:18443/fire-signature/fireService
-
 plugins.signatureweb.fire.javax.net.ssl.keyStore=C:/ruta/keystore.jks
 plugins.signatureweb.fire.javax.net.ssl.keyStorePassword=pass
 plugins.signatureweb.fire.javax.net.ssl.keyStoreType=JKS
@@ -44,3 +44,20 @@ plugins.signatureweb.miniappletinserversia.AUTH_STORE_PASS=pass
 plugins.signatureweb.miniappletinserversia.SSL_PROTOCOL=TLSv1
 plugins.signatureweb.miniappletinserversia.ForceSFDA=false
 plugins.signatureweb.miniappletinserversia.userspattern=XXX_{1}
+plugins.signatureweb.miniappletinserversia.skip_certificate_selection=true
+
+pluginsib.signatureweb.fnmtcloud.debug=false
+pluginsib.signatureweb.fnmtcloud.trustedxURL=https://cloudid.demo.ceres.fnmt.es
+pluginsib.signatureweb.fnmtcloud.ssl.protocol=TLSv1.2
+pluginsib.signatureweb.fnmtcloud.ssl.truststore=C:/ruta/trustedx-demos.truststore
+pluginsib.signatureweb.fnmtcloud.authAuthorizationServer=as-employee
+pluginsib.signatureweb.fnmtcloud.signAuthorizationServer=as-employee
+pluginsib.signatureweb.fnmtcloud.idp=idp-employee
+pluginsib.signatureweb.fnmtcloud.appOAuthFlowSelection=urn:safelayer:tws:policies:authentication:level:low
+pluginsib.signatureweb.fnmtcloud.appOAuthClientId=appClientId
+pluginsib.signatureweb.fnmtcloud.apiKey=secret
+pluginsib.signatureweb.fnmtcloud.appSignScopes=urn:safelayer:eidas:sign:process:document
+pluginsib.signatureweb.fnmtcloud.appRawSignScopes=urn:safelayer:eidas:sign:identity:use:server
+pluginsib.signatureweb.fnmtcloud.appOAuthScopes=urn:safelayer:eidas:authn_details urn:fnmt:employee
+pluginsib.signatureweb.fnmtcloud.htmlbodycontent=<h1>Signature Web Tester</h1><p>Missatge Configurable</p>
+pluginsib.signatureweb.fnmtcloud.proxyEnable=false

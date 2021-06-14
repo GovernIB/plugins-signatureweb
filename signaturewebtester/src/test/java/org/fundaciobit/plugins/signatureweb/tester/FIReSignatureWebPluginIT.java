@@ -51,13 +51,15 @@ public class FIReSignatureWebPluginIT extends AbstractPluginIT {
             htmlFileInput.setContentType("application/pdf");
         }
 
+        driver.findElement(By.name("nif")).sendKeys(getConfig("fire.nif"));
+
         Select select = new Select(driver.findElement(By.name("pluginName")));
         select.selectByValue("fire");
         driver.findElement(By.name("pluginName")).click();
         driver.findElement(By.cssSelector("input[type='submit']")).submit();
 
         driver.findElement(By.cssSelector("a.button")).click();
-        driver.findElement(By.id("pin")).sendKeys("1234");
+        driver.findElement(By.id("pin")).sendKeys(getConfig("fire.pin"));
         driver.findElement(By.cssSelector("button[type='submit']")).submit();
 
         Assert.assertEquals("2", driver.findElement(By.id("status")).getText());
@@ -78,13 +80,15 @@ public class FIReSignatureWebPluginIT extends AbstractPluginIT {
             htmlFileInput.setContentType("text/xml");
         }
 
+        driver.findElement(By.name("nif")).sendKeys(getConfig("fire.nif"));
+
         Select select = new Select(driver.findElement(By.name("pluginName")));
         select.selectByValue("fire");
         driver.findElement(By.name("pluginName")).click();
         driver.findElement(By.cssSelector("input[type='submit']")).submit();
 
         driver.findElement(By.cssSelector("a.button")).click();
-        driver.findElement(By.id("pin")).sendKeys("1234");
+        driver.findElement(By.id("pin")).sendKeys(getConfig("fire.pin"));
         driver.findElement(By.cssSelector("button[type='submit']")).submit();
 
         Assert.assertEquals("2", driver.findElement(By.id("status")).getText());

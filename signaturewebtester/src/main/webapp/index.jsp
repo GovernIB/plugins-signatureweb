@@ -15,7 +15,7 @@
         </p>
         <p>
             <label id="nifLabel" for="nif">NIF:</label>
-            <input type="text" name="nif" value="99999999R">
+            <input type="text" name="nif" value="">
         </p>
         <p>
             <label id="pluginNameLabel" for="pluginName">Plugin:</label>
