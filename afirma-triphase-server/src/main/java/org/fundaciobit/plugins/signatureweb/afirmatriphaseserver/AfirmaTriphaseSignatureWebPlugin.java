@@ -76,26 +76,6 @@ import java.util.concurrent.ConcurrentMap;
 public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin
     implements DocumentManager {
 
-  static {
-      // Workaround per així com les llibreries d'afirma obtenen el provider DOM.
-      // Veure: https://github.com/ctt-gob-es/clienteafirma/issues/141
-      try {
-        Class<?> providerClass = Class.forName("org.apache.jcp.xml.dsig.internal.dom.XMLDSigRI");
-        Provider newProvider = (Provider) providerClass.getConstructor().newInstance();
-
-        Provider oldProvider = Security.getProvider(newProvider.getName());
-        if (oldProvider != null) {
-          Security.removeProvider(oldProvider.getName());
-        }
-
-        Security.insertProviderAt(newProvider, 1);
-
-        System.out.println("Configurat provider XMLDsig");
-      } catch (Exception e) {
-        System.err.println("No s'ha pogut configurar provider XMLDsig: " + e.getMessage());
-      }
-  }
-
   public static final String AUTOFIRMA_BASE_PROPERTIES = SIGNATUREWEB_BASE_PROPERTY
       + "autofirma.";
   
