@@ -33,7 +33,6 @@ public class PluginMapBean {
             throw new RuntimeException("Error llegint plugin.properties", ioException);
         }
 
-
         String[] pluginNames = properties.getProperty("plugins.signatureweb").split(",");
         for (String pluginName : pluginNames) {
             String classProperty = "plugins.signatureweb." + pluginName + ".class";

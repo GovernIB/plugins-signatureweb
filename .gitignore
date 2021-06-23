@@ -14,3 +14,4 @@ nb-configuration.xml
 # Fitxes de configuració específics de l'aplicació
 /signaturewebtester/test.properties
 /signaturewebtester/plugin.properties
+/signaturewebtester/timestamp.properties

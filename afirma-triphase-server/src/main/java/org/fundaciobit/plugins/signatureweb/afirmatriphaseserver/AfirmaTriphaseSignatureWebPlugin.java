@@ -51,6 +51,7 @@ import java.net.MalformedURLException;
 import java.net.SocketException;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.security.Provider;
 import java.security.Security;
 import java.security.cert.X509Certificate;
@@ -709,9 +710,15 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       
       // Convertir Properties a String
       StringBuilder configPropertiesStr1 = new StringBuilder();
-
-      for (Object key : configProperties[i].keySet()) {
-        configPropertiesStr1.append(key).append("=").append(configProperties[i].getProperty((String) key)).append("\n");
+      for (String key : configProperties[i].stringPropertyNames()) {
+        String value = configProperties[i].getProperty(key);
+        configPropertiesStr1
+                .append(key)
+                .append("=")
+                // Les propietats es llegeixen després amb US-ASCII per tant cal escapar els valors.
+                // Veure Portafib#411
+                .append(StringEscapeUtils.escapeJava(value))
+                .append("\n");
       }
       configPropertiesStr[i] = configPropertiesStr1.toString();
       
@@ -843,11 +850,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         configProperties[i].remove(FORMAT_BATCH);
         configProperties[i].remove(FORMAT_MOBILE);
 
-        // @firma llegeix els extraParams amb un Properties.load sobre un String.getBytes. El primer espera
-        // ISO-8859-1, el segon genera ISO-8859-1 o UTF-8 en funció de la plataforma. Cosa que és impossible de quadrar.
-        // Amb l'escapeJava genera ASCII escapant els caràcters unicode, per tant el getBytes no  espanyarà res.
-        // Veure #411
-        String extraParamsB64 = encodeB64(StringEscapeUtils.escapeJava(configPropertiesStr[i]));
+        String extraParamsB64 = encodeB64(configPropertiesStr[i]);
 
         batch.append(
             "  <singlesign Id=\"" + signatureFullID + "\">\r\n" + //$NON-NLS-1$
@@ -1444,7 +1447,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
   protected String encodeB64(final String config) {
       // XYZ ZZZ ZZZ
       final boolean urlSafe=true;
-      return org.fundaciobit.plugins.signatureweb.afirmatriphaseserver.Base64.encode(config.getBytes(), urlSafe);
+      return org.fundaciobit.plugins.signatureweb.afirmatriphaseserver.Base64.encode(config.getBytes(StandardCharsets.UTF_8), urlSafe);
       //return org.fundaciobit.pluginsib.core.utils.Base64.encode(config);
   }
   
@@ -2382,7 +2385,6 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
     // Cache
     BatchPresigner signatureService = getBatchPresignerInstance();
-
     try {
       signatureService.service(request, response);
     } catch (Exception e) {

@@ -92,6 +92,34 @@ public class AutofirmaWebPluginIT extends AbstractPluginIT {
     }
 
     @Test
+    public void testSignPdfTimestamp() throws URISyntaxException, IOException {
+        driver.get(endpoint);
+
+        WebElement fitxerElement = driver.findElement(By.name("fitxer"));
+        File localFile = new File(getClass().getResource("/normal.pdf").toURI());
+        fitxerElement.sendKeys(localFile.getAbsolutePath());
+        if (fitxerElement instanceof HtmlUnitWebElement) {
+            HtmlFileInput htmlFileInput = (HtmlFileInput) ((HtmlUnitWebElement) fitxerElement).getAuxiliary();
+            htmlFileInput.setContentType("application/pdf");
+        }
+
+        driver.findElement(By.name("nif")).sendKeys(getConfig("autofirma.nif"));
+
+        Select select = new Select(driver.findElement(By.name("pluginName")));
+        select.selectByValue("autofirma");
+
+        driver.findElement(By.name("pluginName")).click();
+        driver.findElement(By.name("timestamp")).click();
+
+        driver.findElement(By.cssSelector("input[type='submit']")).submit();
+
+        Assert.assertEquals("2", driver.findElement(By.id("status")).getText());
+
+        String link = driver.findElement(By.id("endSignLink")).getAttribute("href");
+        Request.Get(link).execute().saveContent(new File("autofirma_ts" + System.currentTimeMillis() + ".pdf"));
+    }
+
+    @Test
     public void testSignXml() throws URISyntaxException, IOException {
         driver.get(endpoint);
 

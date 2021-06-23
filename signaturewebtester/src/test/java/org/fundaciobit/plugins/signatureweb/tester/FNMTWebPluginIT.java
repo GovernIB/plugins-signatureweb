@@ -1,13 +1,10 @@
 package org.fundaciobit.plugins.signatureweb.tester;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
-import com.gargoylesoftware.htmlunit.IncorrectnessListener;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlFileInput;
 import com.warrenstrange.googleauth.GoogleAuthenticator;
 import org.apache.http.client.fluent.Request;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -31,8 +28,6 @@ public class FNMTWebPluginIT extends AbstractPluginIT {
 
     @Before
     public void before() {
-
-        //Logger.getRootLogger().setLevel(Level.TRACE);
 
         driver = new HtmlUnitDriver(BrowserVersion.CHROME, true) {
             @Override

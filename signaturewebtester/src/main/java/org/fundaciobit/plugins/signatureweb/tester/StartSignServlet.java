@@ -21,6 +21,7 @@ import javax.servlet.http.Part;
 
 import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
 import org.fundaciobit.plugins.signatureweb.api.ISignatureWebPlugin;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 
@@ -32,6 +33,9 @@ public class StartSignServlet extends HttpServlet {
 
     @Inject
     private PluginMapBean pluginMapBean;
+
+    @Inject
+    private ITimeStampGenerator timeStampGenerator;
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -60,9 +64,12 @@ public class StartSignServlet extends HttpServlet {
             is.transferTo(os);
         }
 
+        boolean timestamp = Boolean.parseBoolean(request.getParameter("timestamp"));
+
         FileInfoSignature fileInfoSignature = getFileInfoSignature(tempFile,
                 fitxer.getSubmittedFileName(),
-                fitxer.getContentType());
+                fitxer.getContentType(),
+                timestamp);
 
         String signaturesSetID = UUID.randomUUID().toString();
         String urlFinal = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() +
@@ -99,13 +106,13 @@ public class StartSignServlet extends HttpServlet {
         }
     }
 
-    private FileInfoSignature getFileInfoSignature(Path tempFile, String fileName, String contentType) {
+    private FileInfoSignature getFileInfoSignature(Path tempFile, String fileName, String contentType, boolean timestamp) {
         return new FileInfoSignature("1", tempFile.toFile(), null,
-                contentType, fileName, null, null, null, 1, "ca",
+                contentType, fileName, "Petició", null, null, 1, "ca",
                 FileInfoSignature.SIGN_OPERATION_SIGN, signType(contentType), FileInfoSignature.SIGN_ALGORITHM_SHA256,
                 FileInfoSignature.SIGN_MODE_IMPLICIT, FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT, null, null,
-                null, false, null, null, null, null,
-                null, null, null);
+                null, false, timestamp ? timeStampGenerator : null, null,
+                null, null, null, null, null);
     }
 
     private String signType(String contentType) {

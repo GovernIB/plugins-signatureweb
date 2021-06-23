@@ -25,6 +25,10 @@
                 </c:forEach>
             </select>
         </p>
+        <p>
+            <label id="timestampLabel" for="timestamp">Incloure timestamp:</label>
+            <input type="checkbox" name="timestamp" value="true">
+        </p>
         
         <input type="submit" value="Enviar">        
     </form>
