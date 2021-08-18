@@ -4,6 +4,7 @@ import org.junit.BeforeClass;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Reader;
 import java.util.Properties;
 
 public abstract class AbstractPluginIT {
@@ -15,7 +16,7 @@ public abstract class AbstractPluginIT {
     @BeforeClass
     public static void setup() throws IOException {
         properties = new Properties();
-        try (var reader = new FileReader("test.properties")){
+        try (Reader reader = new FileReader("test.properties")){
             properties.load(reader);
         }
         endpoint = properties.getProperty("endpoint");

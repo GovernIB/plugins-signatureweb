@@ -3,10 +3,7 @@ package org.fundaciobit.plugins.signatureweb.tester;
 import javax.inject.Inject;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import javax.servlet.ServletRequestEvent;
-import javax.servlet.ServletRequestListener;
 import javax.servlet.annotation.WebListener;
-import javax.servlet.http.HttpServletRequest;
 import java.util.Locale;
 import java.util.logging.Logger;
 

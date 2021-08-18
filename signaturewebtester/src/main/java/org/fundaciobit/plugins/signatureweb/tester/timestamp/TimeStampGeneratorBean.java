@@ -10,6 +10,7 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Named;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 import java.util.logging.Logger;
 
@@ -25,7 +26,7 @@ public class TimeStampGeneratorBean {
     protected void init() {
         String configDir = System.getProperty("org.fundaciobit.plugins.signatureweb.path");
         Properties properties = new Properties();
-        try (var inputStream = new FileInputStream(configDir + "/timestamp.properties")) {
+        try (InputStream inputStream = new FileInputStream(configDir + "/timestamp.properties")) {
             properties.load(inputStream);
         } catch (IOException ioException) {
             throw new RuntimeException("Error llegint timestamp.properties", ioException);

@@ -8,6 +8,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -27,7 +28,7 @@ public class PluginMapBean {
     protected void init() {
         String configDir = System.getProperty("org.fundaciobit.plugins.signatureweb.path");
         Properties properties = new Properties();
-        try (var inputStream = new FileInputStream(configDir + "/plugin.properties")) {
+        try (InputStream inputStream = new FileInputStream(configDir + "/plugin.properties")) {
             properties.load(inputStream);
         } catch (IOException ioException) {
             throw new RuntimeException("Error llegint plugin.properties", ioException);

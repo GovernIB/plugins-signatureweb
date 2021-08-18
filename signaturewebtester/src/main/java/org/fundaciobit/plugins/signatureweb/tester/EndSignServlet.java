@@ -5,6 +5,7 @@ import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
 import org.fundaciobit.plugins.signatureweb.api.ISignatureWebPlugin;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
+import org.fundaciobit.pluginsib.core.utils.FileUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 @WebServlet("/endSign")
 public class EndSignServlet extends HttpServlet {
@@ -51,8 +53,8 @@ public class EndSignServlet extends HttpServlet {
             response.setContentType(signResultContentType(fileInfoSignature.getMimeType()));
             String fileName = "result" + System.currentTimeMillis() + signResultExtension(fileInfoSignature.getMimeType());
             response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
-            try (var inputStream = new FileInputStream(signedData)) {
-                inputStream.transferTo(response.getOutputStream());
+            try (InputStream inputStream = new FileInputStream(signedData)) {
+                FileUtils.copy(inputStream, response.getOutputStream());
             } finally {
                 if (!signedData.delete()) {
                     signedData.deleteOnExit();

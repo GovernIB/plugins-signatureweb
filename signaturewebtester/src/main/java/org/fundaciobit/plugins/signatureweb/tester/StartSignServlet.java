@@ -2,6 +2,8 @@ package org.fundaciobit.plugins.signatureweb.tester;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Instant;
@@ -24,6 +26,7 @@ import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.ITimeStampGenerator;
 import org.fundaciobit.plugins.signatureweb.api.ISignatureWebPlugin;
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
+import org.fundaciobit.pluginsib.core.utils.FileUtils;
 
 @WebServlet("/startSign")
 @MultipartConfig
@@ -59,9 +62,9 @@ public class StartSignServlet extends HttpServlet {
         }
 
         Path tempFile = Files.createTempFile("sign", "temp");
-        try (var os = new FileOutputStream(tempFile.toFile());
-             var is = fitxer.getInputStream()) {
-            is.transferTo(os);
+        try (OutputStream os = new FileOutputStream(tempFile.toFile());
+             InputStream is = fitxer.getInputStream()) {
+            FileUtils.copy(is, os);
         }
 
         boolean timestamp = Boolean.parseBoolean(request.getParameter("timestamp"));
