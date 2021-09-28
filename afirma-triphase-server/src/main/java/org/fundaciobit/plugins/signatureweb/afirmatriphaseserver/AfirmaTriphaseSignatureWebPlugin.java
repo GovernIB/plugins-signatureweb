@@ -2156,7 +2156,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
         miniAppletJSChache = baos.toByteArray();
       }
 
-    
+      response.setContentType("text/javascript");
       response.getOutputStream().write(miniAppletJSChache);
       
     } catch (IOException e) {
