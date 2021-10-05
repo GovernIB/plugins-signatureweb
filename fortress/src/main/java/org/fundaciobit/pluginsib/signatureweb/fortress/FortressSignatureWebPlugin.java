@@ -1,4 +1,4 @@
-package org.fundaciobit.pluignsib.signatureweb.fortress;
+package org.fundaciobit.pluginsib.signatureweb.fortress;
 
 import com.viafirma.fortress.sdk.FortressApi;
 import com.viafirma.fortress.sdk.configuration.FortressApiConfiguration;
