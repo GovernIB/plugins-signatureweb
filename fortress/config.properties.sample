@@ -1,4 +1,7 @@
 
+# Class org.fundaciobit.pluignsib.signatureweb.fortress.FortressSignatureWebPlugin
+
+
 # Adreça base del sevidor de viafirma fortress
 es.caib.portafib.pluginsib.signatureweb.fortress.url=https://pre.firmacloud.com/fortress/
 
