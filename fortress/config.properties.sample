@@ -1,0 +1,13 @@
+
+# Adreça base del sevidor de viafirma fortress
+es.caib.portafib.pluginsib.signatureweb.fortress.url=https://pre.firmacloud.com/fortress/
+
+# Dades d'autenticació del sistema
+es.caib.portafib.pluginsib.signatureweb.fortress.client_id=caib
+es.caib.portafib.pluginsib.signatureweb.fortress.client_secret=40939ba2250c9fd28ba42f23eefac
+
+es.caib.portafib.pluginsib.signatureweb.fortress.debug=true
+
+# màxim 1 minut de connexió i 1 minut de llegir resultat
+es.caib.portafib.pluginsib.signatureweb.fortress.connectTimeout=60
+es.caib.portafib.pluginsib.signatureweb.fortress.readTimeout=60
