@@ -327,17 +327,14 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
       if (passFilterQuanUsuariNoRegistrat()) {
         if (isDebug()) {
           log.info("filter:: L'usuari  " + username + "(" + administrationID + ") no està "
-              + "donat d'alta en el sistema ClaveFirma però la propietat "
-              + "passfilterwhennonregistereduser = true: " + se.getClass());
+              + "donat d'alta en el sistema ClaveFirma però com que la propietat "
+              + "passfilterwhennonregistereduser = true llavors l'acceptam: " + se.getClass());
         }
         return null;
       } else {
-        return "filter:: L'usuari  "
-            + username
-            + "("
-            + administrationID
-            + ") no està "
-            + "donat d'alta en el sistema ClaveFirma (passfilterwhennonregistereduser = false)";
+        return "filter:: L'usuari  " + username + "(" + administrationID + ") no està "
+            + "donat d'alta en el sistema ClaveFirma i com que la propietat " 
+            + "passfilterwhennonregistereduser = false llavors no l'acceptam.";
       }
     } catch (HttpWeakRegistryException we) {
 
@@ -473,6 +470,10 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
         return relativePluginRequestPath + "/" + USUARI_AMB_REGISTRE_DEBIL_PAGE;
 
       } catch (HttpNoUserException se) {
+          
+          if (isDebug()) {
+              log.info("\n\nXYZ ZZZ ZZZ  CLASS NAME => " + se.getClass().getName() + " \n\n");
+          }
 
         // L'usuari no està donat d'alta en el sistema ClaveFirma
         addSignaturesSet(signaturesSet);
@@ -581,7 +582,7 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
 
   // ----------------------------------------------------------------------------
   // ---------------------------------------------------------------------------
-  // -------------- USUARI AMB CERTIFICAT BLOQUEJAT ----------------------------
+  // -------------- USUARI SENSE CERTIFICAT ----------------------------
   // ---------------------------------------------------------------------------
   // ---------------------------------------------------------------------------
 
@@ -697,6 +698,11 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
       String relativePluginRequestPath, HttpServletRequest request,
       HttpServletResponse response, SignaturesSetWeb signaturesSet, int signatureIndex,
       Locale locale) {
+      
+      final boolean debug = isDebug();
+      if (debug) {
+          log.info(" Entra a generarNouCertificat() ...");
+      }
 
     String callbackhost = getProperty(PROPERTY_CALLBACK_HOST);
 
@@ -716,8 +722,6 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
       tancarFinestraURL = callbackhost + request.getServletPath() + "/" + CLOSE_FIRE_PAGE;
     }
 
-    final boolean debug = isDebug();
-
     if (debug) {
       log.info("generarNouCertificat::callBackURLOK = " + callBackURLOK);
       log.info("generarNouCertificat::callBackURLError = " + callBackURLError);
@@ -727,6 +731,7 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
     Properties config = new Properties();
     config.setProperty("redirectOkUrl", callBackURLOK);
     config.setProperty("redirectErrorUrl", callBackURLError);
+    
     GenerateCertificateResult result;
     try {
       final CommonInfoSignature commonInfoSignature = signaturesSet.getCommonInfoSignature();
@@ -738,6 +743,7 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
       initClaveFirma();
       String confB64 = AOUtil.properties2Base64(config);
       result = HttpGenerateCertificate.generateCertificate(appId, subjectId, confB64);
+
 
       String redirectUrl = result.getRedirectUrl();
 
@@ -777,7 +783,7 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
       finishWithError(response, signaturesSet, errorMsg, e);
     } catch (Exception e) {
       // XYZ ZZZ Traduir
-      String errorMsg = "Error en la solicitud de certificado: " + e.getMessage();
+      String errorMsg = "Error en la sol·licitud de certificat: " + e.getMessage()+ " ( " + e.getClass().getName() + ")";
       finishWithError(response, signaturesSet, errorMsg, e);
     }
 
@@ -785,8 +791,7 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
 
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
-  // ------------------------------ SENSE CERTIFICATS
-  // ---------------------------
+  // ------------------------------ SENSE CERTIFICATS ---------------------------
   // ----------------------------------------------------------------------------
   // ----------------------------------------------------------------------------
 
@@ -796,6 +801,11 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
       String relativePluginRequestPath, HttpServletRequest request,
       HttpServletResponse response, SignaturesSetWeb signaturesSet, int signatureIndex,
       Locale locale) {
+      
+      final boolean isDebug = isDebug();
+      if (isDebug) {
+          log.info("Entra a senseCertificats() ... ");
+        }
 
     SignIDAndIndex sai = new SignIDAndIndex(signaturesSet, signatureIndex);
 
@@ -838,16 +848,19 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
   protected void cancelAmbMissatge(String absolutePluginRequestPath,
       String relativePluginRequestPath, String relativePath, HttpServletRequest request,
       HttpServletResponse response, SignaturesSetWeb signaturesSet, Locale locale) {
-
+      
+    final boolean isDebug = isDebug();
+    
     int index = relativePath.lastIndexOf("/");
+    
 
-    if (isDebug()) {
+    if (isDebug) {
       log.info("cancelAmbMissatge():: relativePath = " + relativePath);
     }
 
     String codeTrans = relativePath.substring(index + 1);
 
-    if (isDebug()) {
+    if (isDebug) {
       log.info("cancelAmbMissatge():: codeTrans = " + codeTrans);
     }
 
@@ -1794,6 +1807,11 @@ public class FIReSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
 
     // Altres Serveis ????
     config.setProperty("certificateUrl", baseFire + "/getCertificates");
+
+
+    config.setProperty("newCertUrl", baseFire + "/generateCertificate");
+    config.setProperty("recoverNewCertUrl", baseFire + "/recoverCertificate");
+    
 
     final boolean debug = isDebug();
 

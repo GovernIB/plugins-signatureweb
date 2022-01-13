@@ -1,17 +1,14 @@
 
 plugins.signatureweb=fortress,fire,autofirma,miniappletinserversia,fnmtcloud
 
-plugins.signatureweb.fortress.class=org.fundaciobit.pluignsib.signatureweb.fortress.FortressSignatureWebPlugin
-plugins.signatureweb.fire.class=org.fundaciobit.plugins.signatureweb.fire.FIReSignatureWebPlugin
-plugins.signatureweb.autofirma.class=org.fundaciobit.plugins.signatureweb.afirmatriphaseserver.AfirmaTriphaseSignatureWebPlugin
-plugins.signatureweb.miniappletinserversia.class=org.fundaciobit.plugins.signatureweb.miniappletinserversia.MiniAppletInServerSIASignatureWebPlugin
-plugins.signatureweb.fnmtcloud.class=org.fundaciobit.pluginsib.signatureweb.fnmtcloud.FNMTCloudSignatureWebPlugin
 
+plugins.signatureweb.fortress.class=org.fundaciobit.pluignsib.signatureweb.fortress.FortressSignatureWebPlugin
 pluginsib.signatureweb.fortress.url=https://pre.firmacloud.com/fortress/
 pluginsib.signatureweb.fortress.client_id=client
 pluginsib.signatureweb.fortress.client_secret=b53dg34ffgac49f0939c9fd28bba2250
 pluginsib.signatureweb.fortress.debug=true
 
+plugins.signatureweb.fire.class=org.fundaciobit.plugins.signatureweb.fire.FIReSignatureWebPlugin
 plugins.signatureweb.fire.debug=true
 plugins.signatureweb.fire.appid=TEST
 plugins.signatureweb.fire.procedure=PROCEDURE
@@ -33,11 +30,13 @@ plugins.signatureweb.fire.showinfowhenuserhasweakregistry=true
 plugins.signatureweb.fire.ignore_certificate_filter=true
 plugins.signatureweb.fire.userspattern={1}
 
+plugins.signatureweb.autofirma.class=org.fundaciobit.plugins.signatureweb.afirmatriphaseserver.AfirmaTriphaseSignatureWebPlugin
 plugins.signatureweb.autofirma.debug=true
 plugins.signatureweb.autofirma.headless=false
 plugins.signatureweb.autofirma.firefoxinwindowsuseoskeystore=true
 plugins.signatureweb.autofirma.timeoutbase=600
 
+plugins.signatureweb.miniappletinserversia.class=org.fundaciobit.plugins.signatureweb.miniappletinserversia.MiniAppletInServerSIASignatureWebPlugin
 plugins.signatureweb.miniappletinserversia.URL_GATEWAY=https://gateway.pre.sia.es/rss-gateway/HESS/OperationGateWayRSS
 plugins.signatureweb.miniappletinserversia.AUTH_STORE=C:/ruta/certificat.p12
 plugins.signatureweb.miniappletinserversia.AUTH_STORE_PASS=pass
@@ -46,6 +45,7 @@ plugins.signatureweb.miniappletinserversia.ForceSFDA=false
 plugins.signatureweb.miniappletinserversia.userspattern=XXX_{1}
 plugins.signatureweb.miniappletinserversia.skip_certificate_selection=true
 
+plugins.signatureweb.fnmtcloud.class=org.fundaciobit.pluginsib.signatureweb.fnmtcloud.FNMTCloudSignatureWebPlugin
 pluginsib.signatureweb.fnmtcloud.debug=false
 pluginsib.signatureweb.fnmtcloud.trustedxURL=https://cloudid.demo.ceres.fnmt.es
 pluginsib.signatureweb.fnmtcloud.ssl.protocol=TLSv1.2

@@ -27,6 +27,11 @@ public class PluginMapBean {
     @PostConstruct
     protected void init() {
         String configDir = System.getProperty("org.fundaciobit.plugins.signatureweb.path");
+        
+        if (configDir == null) {
+            throw new RuntimeException("No s'ha definit la Propietat de Sistema: 'org.fundaciobit.plugins.signatureweb.path'");
+        }
+
         Properties properties = new Properties();
         try (InputStream inputStream = new FileInputStream(configDir + "/plugin.properties")) {
             properties.load(inputStream);
