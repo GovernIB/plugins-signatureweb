@@ -1,5 +1,5 @@
 
-plugins.signatureweb=fortress,fire,autofirma,miniappletinserversia,fnmtcloud
+plugins.signatureweb=fortress,fire,autofirma,miniappletinserversia,fnmtcloud,firmanocriptografica
 
 
 plugins.signatureweb.fortress.class=org.fundaciobit.pluignsib.signatureweb.fortress.FortressSignatureWebPlugin
@@ -7,6 +7,10 @@ pluginsib.signatureweb.fortress.url=https://pre.firmacloud.com/fortress/
 pluginsib.signatureweb.fortress.client_id=client
 pluginsib.signatureweb.fortress.client_secret=b53dg34ffgac49f0939c9fd28bba2250
 pluginsib.signatureweb.fortress.debug=true
+
+
+
+
 
 plugins.signatureweb.fire.class=org.fundaciobit.plugins.signatureweb.fire.FIReSignatureWebPlugin
 plugins.signatureweb.fire.debug=true
@@ -30,11 +34,19 @@ plugins.signatureweb.fire.showinfowhenuserhasweakregistry=true
 plugins.signatureweb.fire.ignore_certificate_filter=true
 plugins.signatureweb.fire.userspattern={1}
 
+
+
+
+
 plugins.signatureweb.autofirma.class=org.fundaciobit.plugins.signatureweb.afirmatriphaseserver.AfirmaTriphaseSignatureWebPlugin
 plugins.signatureweb.autofirma.debug=true
 plugins.signatureweb.autofirma.headless=false
 plugins.signatureweb.autofirma.firefoxinwindowsuseoskeystore=true
 plugins.signatureweb.autofirma.timeoutbase=600
+
+
+
+
 
 plugins.signatureweb.miniappletinserversia.class=org.fundaciobit.plugins.signatureweb.miniappletinserversia.MiniAppletInServerSIASignatureWebPlugin
 plugins.signatureweb.miniappletinserversia.URL_GATEWAY=https://gateway.pre.sia.es/rss-gateway/HESS/OperationGateWayRSS
@@ -44,6 +56,9 @@ plugins.signatureweb.miniappletinserversia.SSL_PROTOCOL=TLSv1
 plugins.signatureweb.miniappletinserversia.ForceSFDA=false
 plugins.signatureweb.miniappletinserversia.userspattern=XXX_{1}
 plugins.signatureweb.miniappletinserversia.skip_certificate_selection=true
+
+
+
 
 plugins.signatureweb.fnmtcloud.class=org.fundaciobit.pluginsib.signatureweb.fnmtcloud.FNMTCloudSignatureWebPlugin
 pluginsib.signatureweb.fnmtcloud.debug=false
@@ -61,3 +76,18 @@ pluginsib.signatureweb.fnmtcloud.appRawSignScopes=urn:safelayer:eidas:sign:ident
 pluginsib.signatureweb.fnmtcloud.appOAuthScopes=urn:safelayer:eidas:authn_details urn:fnmt:employee
 pluginsib.signatureweb.fnmtcloud.htmlbodycontent=<h1>Signature Web Tester</h1><p>Missatge Configurable</p>
 pluginsib.signatureweb.fnmtcloud.proxyEnable=false
+
+
+plugins.signatureweb.firmanocriptografica.class=org.fundaciobit.plugins.signatureweb.firmanocriptografica.FirmaNoCriptograficaSignatureWebPlugin
+
+pluginsib.signatureweb.firmanocriptografica.serverplugin.class=org.fundaciobit.plugins.signatureserver.afirmaserver.AfirmaServerSignatureServerPlugin
+
+pluginsib.signatureweb.firmanocriptografica.serverplugin.properties.plugins.signatureserver.afirmaserver.applicationID=XXXXXX
+pluginsib.signatureweb.firmanocriptografica.serverplugin.properties.plugins.signatureserver.afirmaserver.debug=false
+pluginsib.signatureweb.firmanocriptografica.serverplugin.properties.plugins.signatureserver.afirmaserver.printxml=false
+pluginsib.signatureweb.firmanocriptografica.serverplugin.properties.plugins.signatureserver.afirmaserver.defaultAliasCertificate=serversigner
+pluginsib.signatureweb.firmanocriptografica.serverplugin.properties.plugins.signatureserver.afirmaserver.TransformersTemplatesPath=/opt/signatureserver/transformersTemplates
+pluginsib.signatureweb.firmanocriptografica.serverplugin.properties.plugins.signatureserver.afirmaserver.endpoint=https:/servidorafirma/afirmaws/services/DSSAfirmaSign
+pluginsib.signatureweb.firmanocriptografica.serverplugin.properties.plugins.signatureserver.afirmaserver.endpoint_upgrade=https://servidorafirma/afirmaws/services/DSSAfirmaVerify
+pluginsib.signatureweb.firmanocriptografica.serverplugin.properties.plugins.signatureserver.afirmaserver.authorization.username=XXXX
+pluginsib.signatureweb.firmanocriptografica.serverplugin.properties.plugins.signatureserver.afirmaserver.authorization.password=XXXX

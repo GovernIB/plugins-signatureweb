@@ -55,6 +55,19 @@
             <artifactId>pluginsib-signatureweb-fnmtcloud</artifactId>
             <version>${project.version}</version>
         </dependency>
+		
+		<dependency>
+            <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
+            <artifactId>pluginsib-signatureweb-firmanocriptografica</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+		
+		<!-- Necessitam un plugin de Firma en Servidor per firmanocriptografica -->
+		<dependency>
+            <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
+            <artifactId>pluginsib-signatureserver-afirmaserver</artifactId>
+            <version>${pluginsib.signatureserver.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.fundaciobit.pluginsib.timestamp</groupId>

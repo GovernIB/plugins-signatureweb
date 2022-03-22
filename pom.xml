@@ -14,6 +14,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <jboss-eap.version>7.2.9.GA</jboss-eap.version>
         <pluginsib.signatureserver.version>3.1.0-SNAPSHOT</pluginsib.signatureserver.version>
+		<pluginsib.core.version>2.0.2</pluginsib.core.version>
         <afirma.version>1.6.5</afirma.version>
         <junit.version>4.13.2</junit.version>
         <log4j.version>1.2.14</log4j.version>
@@ -26,6 +27,7 @@
         <module>fnmtcloud</module>
         <module>miniappletinserversia</module>
         <module>fortress</module>
+		<module>firmanocripto</module>
         <module>afirma-triphase-server</module>
         <module>signaturewebtester</module>
     </modules>
@@ -43,6 +45,7 @@
     </dependencyManagement>
 
     <dependencies>
+
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
