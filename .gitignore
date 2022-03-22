@@ -16,3 +16,6 @@ nb-configuration.xml
 /signaturewebtester/plugin.properties
 /signaturewebtester/timestamp.properties
 /firmanocripto/doc
+/fire/screenshots_renovacio_cert
+/fire/screenshots_firma
+/firmanocripto/test.properties
