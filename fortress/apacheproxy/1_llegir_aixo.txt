@@ -1,0 +1,30 @@
+Prové de la issue https://github.com/GovernIB/portafib/issues/731
+
+Més videos del problema: 
+
+       * En MacOSX: https://otae.fundaciobit.org/downloads/portafib/videos/FirmaProfesionalSafariMacosx.mp4
+
+       * En IOS: https://otae.fundaciobit.org/downloads/portafib/videos/FirmaProfesionalIOS.MP4
+
+
+
+INSTALL APACHE2
+===============
+
+(0) Editar fitxer .\conf\httpd.conf i definir la variable SRVROOT que apunti a un directori correcte
+(1) Obrir consola com administrador i anar a .\bin
+(2) Executar "httpd -k install"
+
+
+START
+=====
+
+Executar "httpd -k start"
+
+
+
+HTTPS: GEN CERTIFICATS
+======================
+
+(a) Anar a directori /conf
+(b) Executar 'openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes -out server.crt -keyout server.key'
