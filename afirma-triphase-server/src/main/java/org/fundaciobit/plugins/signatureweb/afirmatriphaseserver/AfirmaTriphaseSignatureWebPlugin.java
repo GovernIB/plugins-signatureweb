@@ -9,6 +9,7 @@ import es.gob.afirma.signers.tsp.pkcs7.CMSTimestamper;
 import es.gob.afirma.signers.tsp.pkcs7.TsaParams;
 import es.gob.afirma.signfolder.server.proxy.RetrieveService;
 import es.gob.afirma.signfolder.server.proxy.StorageService;
+import es.gob.afirma.triphase.server.ConfigManager;
 import es.gob.afirma.triphase.server.SignatureService;
 import es.gob.afirma.triphase.server.document.DocumentManager;
 
@@ -52,8 +53,6 @@ import java.net.SocketException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.security.Provider;
-import java.security.Security;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -2380,6 +2379,39 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
   public BatchPresigner getBatchPresignerInstance() {
     if (batchPresigner == null) {
+        
+        
+        String defaultTmpDir = System.getProperty("java.io.tmpdir");
+        
+        final String BatchConfigManager_ENVIRONMENT_VAR_CONFIG_DIR = "clienteafirma.config.path";
+        // RetrieveConfig.ENVIRONMENT_VAR_CONFIG_DIR = "clienteafirma.config.path";
+        System.setProperty(BatchConfigManager_ENVIRONMENT_VAR_CONFIG_DIR, defaultTmpDir);
+        
+        final String BatchConfigManager_CONFIG_FILE = "signbatch_config.properties";
+        File f = new File(defaultTmpDir, BatchConfigManager_CONFIG_FILE);
+        
+        Properties prop = new Properties();
+        
+        prop.setProperty("maxcurrentsigns", "10");
+
+                //#tmpdir=C:/salida/temp
+
+               // Operacion concurrente o en serie
+                prop.setProperty("concurrentmode","false");
+
+                // Fuentes de datos permitidas, separadas por 
+                prop.setProperty("allowedsources","base64;file://*;http://*;https://*;ftp://*");
+        
+        
+        try {
+            prop.store(new FileOutputStream(f), "");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        
+        
       batchPresigner = new BatchPresigner();
       init(); // TODO només fer-ho una vegada !!!!!!!!!!
     }
@@ -2484,9 +2516,11 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
   private static final String CONFIG_PARAM_DOCUMENT_MANAGER_CLASS = "document.manager";
 
   private void init() {
+      
+      
 
     try {
-      Field configField = SignatureService.class.getDeclaredField("config");
+      Field configField = ConfigManager.class.getDeclaredField("config");
       configField.setAccessible(true);
 
       // Valors NO REALS, nomes per inicialitzar el sistema !!!!
@@ -2512,6 +2546,20 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     }
     
     try {
+      
+        
+       
+        
+        String defaultTmpDir = System.getProperty("java.io.tmpdir");
+        
+        final String RetrieveConfig_ENVIRONMENT_VAR_CONFIG_DIR = "clienteafirma.config.path";
+        // RetrieveConfig.ENVIRONMENT_VAR_CONFIG_DIR = "clienteafirma.config.path";
+        System.setProperty(RetrieveConfig_ENVIRONMENT_VAR_CONFIG_DIR, defaultTmpDir);
+        
+                final String RetrieveConfig_CONFIG_FILE = "intermediate_config.properties";
+        File f = new File(defaultTmpDir, RetrieveConfig_CONFIG_FILE);
+        f.createNewFile();
+        
       Class<?> rtClazz = Class.forName("es.gob.afirma.signfolder.server.proxy.RetrieveConfig");
       Field field = rtClazz.getDeclaredField("EXPIRATION_TIME");
       field.setAccessible(true);

@@ -89,7 +89,7 @@
                 <artifactItem>
                   <groupId>es.gob.afirma</groupId>
                   <artifactId>afirma-server-triphase-signer</artifactId>
-                  <version>1.6.5</version>
+                  <version>${afirma.version}</version>
                   <type>war</type>
                   <overWrite>true</overWrite>
                   <outputDirectory>${project.build.directory}/classes_war</outputDirectory>
@@ -99,7 +99,7 @@
                 <artifactItem>
                   <groupId>es.gob.afirma</groupId>
                   <artifactId>afirma-signature-retriever</artifactId>
-                  <version>1.6.5</version>
+                  <version>${afirma.version}</version>
                   <type>war</type>
                   <overWrite>true</overWrite>
                   <outputDirectory>${project.build.directory}/classes_war</outputDirectory>
@@ -109,7 +109,7 @@
                 <artifactItem>
                   <groupId>es.gob.afirma</groupId>
                   <artifactId>afirma-signature-storage</artifactId>
-                  <version>1.6.5</version>
+                  <version>${afirma.version}</version>
                   <type>war</type>
                   <overWrite>true</overWrite>
                   <outputDirectory>${project.build.directory}/classes_war</outputDirectory>

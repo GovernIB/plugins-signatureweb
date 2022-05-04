@@ -15,7 +15,8 @@
         <jboss-eap.version>7.2.9.GA</jboss-eap.version>
         <pluginsib.signatureserver.version>3.1.0-SNAPSHOT</pluginsib.signatureserver.version>
 		<pluginsib.core.version>2.0.2</pluginsib.core.version>
-        <afirma.version>1.6.5</afirma.version>
+        <afirma.version>1.7.2</afirma.version>
+		<integra.version>2.2.1_000</integra.version>
         <junit.version>4.13.2</junit.version>
         <log4j.version>1.2.14</log4j.version>
     </properties>
