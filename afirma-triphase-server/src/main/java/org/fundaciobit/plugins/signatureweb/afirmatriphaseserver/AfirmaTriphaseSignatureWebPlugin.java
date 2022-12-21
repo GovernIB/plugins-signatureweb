@@ -1655,6 +1655,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
     if (isHeadless()) {
       configProperties.put("filters", "subject.contains:" + signaturesSet.getCommonInfoSignature().getAdministrationID());
       configProperties.put("headless", "true");
+      configProperties.put("allowSigningCertifiedPdfs", "true");
     }
 
     if (debug) {
