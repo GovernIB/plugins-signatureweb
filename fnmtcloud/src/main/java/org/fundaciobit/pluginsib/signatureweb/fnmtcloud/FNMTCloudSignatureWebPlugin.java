@@ -1037,6 +1037,7 @@ public class FNMTCloudSignatureWebPlugin extends AbstractSignatureWebPlugin {
       List<String> labels1 = new ArrayList<String>();
       labels1.add("fnmt");
       labels1.add("cloudid");
+      labels1.add("cloudqscd");
       
       List<List<String>> labels = new ArrayList<List<String>>();
       labels.add(labels1);
