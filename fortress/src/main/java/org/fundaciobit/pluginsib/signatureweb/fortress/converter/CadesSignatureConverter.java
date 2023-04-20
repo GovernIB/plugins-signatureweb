@@ -1,8 +1,15 @@
 package org.fundaciobit.pluginsib.signatureweb.fortress.converter;
 
 import com.viafirma.fortress.sdk.model.signature.SignatureConfiguration;
+import com.viafirma.fortress.sdk.model.signature.SignatureConfiguration.Packaging;
+
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 
+/**
+ * 
+ * @author anadal
+ *
+ */
 public class CadesSignatureConverter extends AbstractSignatureConverter {
 
     @Override
@@ -12,8 +19,22 @@ public class CadesSignatureConverter extends AbstractSignatureConverter {
                 : SignatureConfiguration.SignatureType.CADES_T;
         config.setSignatureType(type);
 
-        config.setPackaging(fis.getSignMode() == FileInfoSignature.SIGN_MODE_IMPLICIT
-                ? SignatureConfiguration.Packaging.ENVELOPING
-                : SignatureConfiguration.Packaging.DETACHED);
+        Packaging packaging;
+        switch (fis.getSignMode()) {
+            case FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPING:
+                packaging = SignatureConfiguration.Packaging.ENVELOPING;
+            break;
+
+            case FileInfoSignature.SIGN_MODE_DETACHED:
+                packaging = SignatureConfiguration.Packaging.DETACHED;
+            break;
+
+            default:
+                log.error("Mode de Firma desconegut ]" + fis.getSignMode() + "[ dins de CadesSignatureConverter",
+                        new Exception());
+                packaging = null;
+            break;
+        }
+        config.setPackaging(packaging);
     }
 }

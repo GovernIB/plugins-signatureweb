@@ -95,7 +95,7 @@ public class SignatureInServerTest extends TestCase {
       String languageSign = "ca";
       String signType = FileInfoSignature.SIGN_TYPE_PADES;
       String signAlgorithm = FileInfoSignature.SIGN_ALGORITHM_SHA1;
-      int signMode = FileInfoSignature.SIGN_MODE_IMPLICIT;
+      int signMode = FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPED;
 
       int signaturesTableLocation = FileInfoSignature.SIGNATURESTABLELOCATION_LASTPAGE;
       PdfRubricRectangle pdfRubricRectangle = new PdfRubricRectangle(106, 650, 555, 710);

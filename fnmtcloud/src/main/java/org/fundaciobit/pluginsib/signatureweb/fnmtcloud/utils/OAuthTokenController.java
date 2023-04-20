@@ -111,7 +111,7 @@ public class OAuthTokenController {
     }
 
     // Send the request to TrustedX
-    CloseableHttpClient httpclient = HttpClients.custom().setSslcontext(sslContext).build();
+    CloseableHttpClient httpclient = HttpClients.custom().setSSLContext(sslContext).build();
     CloseableHttpResponse httpResponse = httpclient.execute(httpPost);
 
     HttpEntity entity = httpResponse.getEntity();
@@ -184,7 +184,7 @@ public class OAuthTokenController {
     }
 
     // Send the request to TrustedX
-    CloseableHttpClient httpclient = HttpClients.custom().setSslcontext(sslContext).build();
+    CloseableHttpClient httpclient = HttpClients.custom().setSSLContext(sslContext).build();
     CloseableHttpResponse httpResponse = httpclient.execute(httpPost);
 
     HttpEntity entity = httpResponse.getEntity();
@@ -225,7 +225,7 @@ public class OAuthTokenController {
     String proxyPort = plugin.getProxyPort();
     String proxyScheme = plugin.getProxyScheme();
 
-    HttpHost proxy = new HttpHost(proxyIp, new Integer(proxyPort), proxyScheme);
+    HttpHost proxy = new HttpHost(proxyIp, Integer.parseInt(proxyPort), proxyScheme);
     RequestConfig proxyConfig = RequestConfig.custom().setProxy(proxy).build();
     return proxyConfig;
   }

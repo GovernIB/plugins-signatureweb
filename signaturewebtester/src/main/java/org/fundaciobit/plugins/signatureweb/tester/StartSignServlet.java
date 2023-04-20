@@ -113,7 +113,7 @@ public class StartSignServlet extends HttpServlet {
         return new FileInfoSignature("1", tempFile.toFile(), null,
                 contentType, fileName, "Petició", null, null, 1, "ca",
                 FileInfoSignature.SIGN_OPERATION_SIGN, signType(contentType), FileInfoSignature.SIGN_ALGORITHM_SHA256,
-                FileInfoSignature.SIGN_MODE_IMPLICIT, FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT, null, null,
+                FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPED, FileInfoSignature.SIGNATURESTABLELOCATION_WITHOUT, null, null,
                 null, false, timestamp ? timeStampGenerator : null, null,
                 null, null, null, null, null);
     }

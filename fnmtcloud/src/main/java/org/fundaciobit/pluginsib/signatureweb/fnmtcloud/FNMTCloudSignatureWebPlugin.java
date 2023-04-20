@@ -621,7 +621,7 @@ public class FNMTCloudSignatureWebPlugin extends AbstractSignatureWebPlugin {
     log.info("XYZ ZZZ getUserInfo => 1 ");
 
     // Send the request to TrustedX
-    CloseableHttpClient httpclient = HttpClients.custom().setSslcontext(sslContext).build();
+    CloseableHttpClient httpclient = HttpClients.custom().setSSLContext(sslContext).build();
     CloseableHttpResponse httpResponse;
 
     // Once you have the access token, send a request to the userinfo endpoint to
@@ -638,7 +638,7 @@ public class FNMTCloudSignatureWebPlugin extends AbstractSignatureWebPlugin {
     log.info("XYZ ZZZ getUserInfo => 2 ");
     
     // Sends the request to TrustedX
-    httpclient = HttpClients.custom().setSslcontext(sslContext).build();
+    httpclient = HttpClients.custom().setSSLContext(sslContext).build();
     httpResponse = httpclient.execute(httpGet);
     
     log.info("XYZ ZZZ getUserInfo => 3");
@@ -1167,7 +1167,7 @@ public class FNMTCloudSignatureWebPlugin extends AbstractSignatureWebPlugin {
     
 
     // Send the request to TrustedX
-    CloseableHttpClient httpclient = HttpClients.custom().setSslcontext(sslContext).build();
+    CloseableHttpClient httpclient = HttpClients.custom().setSSLContext(sslContext).build();
 
     CloseableHttpResponse httpResponse;
     httpResponse = httpclient.execute(httpPost);
@@ -1280,7 +1280,7 @@ public class FNMTCloudSignatureWebPlugin extends AbstractSignatureWebPlugin {
       }
 
       // Sends the request to TrustedX
-      CloseableHttpClient httpclient = HttpClients.custom().setSslcontext(sslContext).build();
+      CloseableHttpClient httpclient = HttpClients.custom().setSSLContext(sslContext).build();
       CloseableHttpResponse httpResponse = httpclient.execute(httpGet);
 
       // You should get an HTTP 200 response from TrustedX. Other response codes indicate that

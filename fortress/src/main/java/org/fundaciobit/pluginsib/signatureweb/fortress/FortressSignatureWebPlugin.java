@@ -25,6 +25,7 @@ import static com.viafirma.fortress.sdk.FortressApi.GRANT_TYPE_CLIENT_CREDENTIAL
  * Implementació del plugin de firma web de ViaFirma - Fortress
  *
  * @author areus
+ * @author anadal
  */
 public class FortressSignatureWebPlugin extends AbstractMiniAppletSignaturePlugin {
 
@@ -36,24 +37,23 @@ public class FortressSignatureWebPlugin extends AbstractMiniAppletSignaturePlugi
     // Constructors per defecte
 
     public FortressSignatureWebPlugin() {
-        super();        
+        super();
     }
 
     public FortressSignatureWebPlugin(String propertyKeyBase) {
-        super(propertyKeyBase);        
+        super(propertyKeyBase);
     }
 
     public FortressSignatureWebPlugin(String propertyKeyBase, Properties properties) {
-        super(propertyKeyBase, properties);        
+        super(propertyKeyBase, properties);
     }
 
     // Inicialització
-
     private FortressApi getApi() throws Exception {
         if (apiInstance == null) {
             try {
-                FortressApiConfiguration conf =
-                        new FortressApiConfiguration(getUrl(), getClientId(), getClientSecret());
+                FortressApiConfiguration conf = new FortressApiConfiguration(getUrl(), getClientId(),
+                        getClientSecret());
                 conf.setDebug(isDebug());
                 conf.setConnectionTimeout(getConnectTimeout());
                 conf.setReadTimeout(getReadTimeout());
@@ -61,10 +61,10 @@ public class FortressSignatureWebPlugin extends AbstractMiniAppletSignaturePlugi
             } catch (Exception e) {
                 throw new Exception("Error inicialitzant API", e);
             }
-        } 
+        }
 
         return apiInstance;
-        
+
     }
 
     // Propietats de configuració
@@ -101,18 +101,16 @@ public class FortressSignatureWebPlugin extends AbstractMiniAppletSignaturePlugi
     }
 
     @Override
-    public String filter(HttpServletRequest request, SignaturesSetWeb signaturesSet,
-                         Map<String, Object> parameters) {
+    public String filter(HttpServletRequest request, SignaturesSetWeb signaturesSet, Map<String, Object> parameters) {
         // A priori no tenim manera de saber si l'usuari ja existeix o no a viafirma
         try {
             getApi();
-        } catch(Exception e) {
+        } catch (Exception e) {
             String msg = "No puc connectar amb el servidor de Via Firma: " + e.getMessage();
             log.error(msg, e);
             return msg;
         }
-        
-        
+
         return super.filter(request, signaturesSet, parameters);
     }
 
@@ -124,57 +122,53 @@ public class FortressSignatureWebPlugin extends AbstractMiniAppletSignaturePlugi
 
     @Override
     public String signDocuments(HttpServletRequest request, String absolutePluginRequestPath,
-                                String relativePluginRequestPath, SignaturesSetWeb signaturesSet,
-                                Map<String, Object> parameters) {
+            String relativePluginRequestPath, SignaturesSetWeb signaturesSet, Map<String, Object> parameters) {
 
         addSignaturesSet(signaturesSet);
         return relativePluginRequestPath + "/" + INICI_FIRMA;
     }
 
     @Override
-    public void requestGET(String absolutePluginRequestPath, String relativePluginRequestPath,
-                           String query, SignaturesSetWeb signaturesSet, int signatureIndex,
-                           HttpServletRequest request, HttpServletResponse response, Locale locale) {
+    public void requestGET(String absolutePluginRequestPath, String relativePluginRequestPath, String query,
+            SignaturesSetWeb signaturesSet, int signatureIndex, HttpServletRequest request,
+            HttpServletResponse response, Locale locale) {
 
-        commonRequestGETPOST(absolutePluginRequestPath, relativePluginRequestPath, query,
-                signaturesSet, signatureIndex, request, response, locale, true);
+        commonRequestGETPOST(absolutePluginRequestPath, relativePluginRequestPath, query, signaturesSet, signatureIndex,
+                request, response, locale, true);
     }
 
     @Override
-    public void requestPOST(String absolutePluginRequestPath, String relativePluginRequestPath,
-                            String query, SignaturesSetWeb signaturesSet, int signatureIndex,
-                            HttpServletRequest request, HttpServletResponse response, Locale locale) {
-        commonRequestGETPOST(absolutePluginRequestPath, relativePluginRequestPath, query,
-                signaturesSet, signatureIndex, request, response, locale, false);
+    public void requestPOST(String absolutePluginRequestPath, String relativePluginRequestPath, String query,
+            SignaturesSetWeb signaturesSet, int signatureIndex, HttpServletRequest request,
+            HttpServletResponse response, Locale locale) {
+        commonRequestGETPOST(absolutePluginRequestPath, relativePluginRequestPath, query, signaturesSet, signatureIndex,
+                request, response, locale, false);
     }
 
-    private void commonRequestGETPOST(String absolutePluginRequestPath,
-                                      String relativePluginRequestPath, String query, SignaturesSetWeb signaturesSet,
-                                      int signatureIndex, HttpServletRequest request, HttpServletResponse response,
-                                      Locale locale, boolean isGet) {
+    private void commonRequestGETPOST(String absolutePluginRequestPath, String relativePluginRequestPath, String query,
+            SignaturesSetWeb signaturesSet, int signatureIndex, HttpServletRequest request,
+            HttpServletResponse response, Locale locale, boolean isGet) {
 
         if (query.startsWith(INICI_FIRMA)) {
-            iniciFirma(absolutePluginRequestPath, relativePluginRequestPath, request,
-                    response, signaturesSet, locale);
+            iniciFirma(absolutePluginRequestPath, relativePluginRequestPath, request, response, signaturesSet, locale);
         } else if (query.startsWith(EXECUCIO_FIRMA)) {
-            execucioFirma(absolutePluginRequestPath, relativePluginRequestPath, request,
-                    response, signaturesSet, locale);
+            execucioFirma(absolutePluginRequestPath, relativePluginRequestPath, request, response, signaturesSet,
+                    locale);
         } else {
             if (isGet) {
-                super.requestGET(absolutePluginRequestPath, relativePluginRequestPath, query,
-                        signaturesSet, signatureIndex, request, response, locale);
+                super.requestGET(absolutePluginRequestPath, relativePluginRequestPath, query, signaturesSet,
+                        signatureIndex, request, response, locale);
             } else {
-                super.requestPOST(absolutePluginRequestPath, relativePluginRequestPath, query,
-                        signaturesSet, signatureIndex, request, response, locale);
+                super.requestPOST(absolutePluginRequestPath, relativePluginRequestPath, query, signaturesSet,
+                        signatureIndex, request, response, locale);
             }
         }
     }
 
     private static final String INICI_FIRMA = "inicifirma";
 
-    private void iniciFirma(String absolutePluginRequestPath,
-                                 String relativePluginRequestPath, HttpServletRequest request,
-                                 HttpServletResponse response, SignaturesSetWeb signaturesSet, Locale locale) {
+    private void iniciFirma(String absolutePluginRequestPath, String relativePluginRequestPath,
+            HttpServletRequest request, HttpServletResponse response, SignaturesSetWeb signaturesSet, Locale locale) {
         try {
             if (isDebug()) {
                 log.info("iniciFirma");
@@ -194,10 +188,9 @@ public class FortressSignatureWebPlugin extends AbstractMiniAppletSignaturePlugi
             signatureRequest.setSignatureConfigurations(configurationList);
             signatureRequest.setUserCode(signaturesSet.getCommonInfoSignature().getAdministrationID());
 
-            FortressApi api  = getApi(); 
-            
-            SignatureRequestResponse signatureRequestResponse =
-                    api.signatureRequest(token, signatureRequest);
+            FortressApi api = getApi();
+
+            SignatureRequestResponse signatureRequestResponse = api.signatureRequest(token, signatureRequest);
             executionCodes.put(signaturesSet.getSignaturesSetID(), signatureRequestResponse.getExeCode());
             signaturesSet.getStatusSignaturesSet().setStatus(StatusSignaturesSet.STATUS_IN_PROGRESS);
 
@@ -219,9 +212,8 @@ public class FortressSignatureWebPlugin extends AbstractMiniAppletSignaturePlugi
 
     private static final String EXECUCIO_FIRMA = "execuciofirma";
 
-    private void execucioFirma(String absolutePluginRequestPath,
-                                 String relativePluginRequestPath, HttpServletRequest request,
-                                 HttpServletResponse response, SignaturesSetWeb signaturesSet, Locale locale) {
+    private void execucioFirma(String absolutePluginRequestPath, String relativePluginRequestPath,
+            HttpServletRequest request, HttpServletResponse response, SignaturesSetWeb signaturesSet, Locale locale) {
 
         try {
             if (isDebug()) {
@@ -256,8 +248,8 @@ public class FortressSignatureWebPlugin extends AbstractMiniAppletSignaturePlugi
 
     private String getToken(String absolutePluginRequestPath) throws Exception {
         if (tokenHolder.isExpired()) {
-            tokenHolder = new TokenHolder(getApi().getAccessToken("", absolutePluginRequestPath,
-                    GRANT_TYPE_CLIENT_CREDENTIALS));
+            tokenHolder = new TokenHolder(
+                    getApi().getAccessToken("", absolutePluginRequestPath, GRANT_TYPE_CLIENT_CREDENTIALS));
         }
         return tokenHolder.getToken();
     }
@@ -308,7 +300,6 @@ public class FortressSignatureWebPlugin extends AbstractMiniAppletSignaturePlugi
         return false;
     }
 
-
     @Override
     public boolean acceptExternalSecureVerificationCodeStamper() {
         return false;
@@ -317,16 +308,6 @@ public class FortressSignatureWebPlugin extends AbstractMiniAppletSignaturePlugi
     @Override
     public boolean providesSecureVerificationCodeStamper() {
         return false;
-    }
-
-
-    @Override
-    public String[] getSupportedSignatureTypes() {
-        return new String[]{
-                FileInfoSignature.SIGN_TYPE_PADES,
-                FileInfoSignature.SIGN_TYPE_CADES,
-                FileInfoSignature.SIGN_TYPE_XADES
-        };
     }
 
     /**
@@ -343,16 +324,29 @@ public class FortressSignatureWebPlugin extends AbstractMiniAppletSignaturePlugi
     }
 
     @Override
+    public String[] getSupportedSignatureTypes() {
+        return new String[] { FileInfoSignature.SIGN_TYPE_PADES, FileInfoSignature.SIGN_TYPE_CADES,
+                FileInfoSignature.SIGN_TYPE_XADES };
+    }
+
+    @Override
     public String[] getSupportedSignatureAlgorithms(String signType) {
-        if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)
-                || FileInfoSignature.SIGN_TYPE_XADES.equals(signType)
+        if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType) || FileInfoSignature.SIGN_TYPE_XADES.equals(signType)
                 || FileInfoSignature.SIGN_TYPE_CADES.equals(signType)) {
-            return new String[]{FileInfoSignature.SIGN_ALGORITHM_SHA1,
-                    FileInfoSignature.SIGN_ALGORITHM_SHA256,
-                    FileInfoSignature.SIGN_ALGORITHM_SHA384,
-                    FileInfoSignature.SIGN_ALGORITHM_SHA512};
+            return new String[] { FileInfoSignature.SIGN_ALGORITHM_SHA1, FileInfoSignature.SIGN_ALGORITHM_SHA256,
+                    FileInfoSignature.SIGN_ALGORITHM_SHA384, FileInfoSignature.SIGN_ALGORITHM_SHA512 };
         }
         return null;
+    }
+
+    @Override
+    public int[] getSupportedSignatureModes(String signType) {
+
+        if (FileInfoSignature.SIGN_TYPE_XADES.equals(signType)) {
+            return new int[] { FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPING, FileInfoSignature.SIGN_MODE_DETACHED };
+        } else {
+            return super.getSupportedSignatureModes(signType);
+        }
     }
 
     @Override
