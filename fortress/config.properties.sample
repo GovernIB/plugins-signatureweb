@@ -1,6 +1,7 @@
 
 # Class org.fundaciobit.pluginsib.signatureweb.fortress.FortressSignatureWebPlugin
 
+# NOTA: Anara a https://pre.firmacloud.com/fortress/ per vuere l'estat del meu usuari.
 
 # Adreça base del sevidor de viafirma fortress
 es.caib.portafib.pluginsib.signatureweb.fortress.url=https://pre.firmacloud.com/fortress/

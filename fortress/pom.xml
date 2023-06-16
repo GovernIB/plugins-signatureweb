@@ -11,6 +11,7 @@
 
     <artifactId>pluginsib-signatureweb-fortress</artifactId>
     <name>FundacioBit - PluginsIB - SignatureWeb - ViaFirma-Fortress</name>
+    <version>3.1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>

@@ -2,6 +2,7 @@ package org.fundaciobit.pluginsib.signatureweb.fortress;
 
 import com.viafirma.fortress.sdk.FortressApi;
 import com.viafirma.fortress.sdk.configuration.FortressApiConfiguration;
+import com.viafirma.fortress.sdk.model.UserStatus;
 import com.viafirma.fortress.sdk.model.signature.SignatureConfiguration;
 import com.viafirma.fortress.sdk.model.signature.SignatureRequest;
 import com.viafirma.fortress.sdk.model.signature.SignatureRequestResponse;
@@ -102,11 +103,40 @@ public class FortressSignatureWebPlugin extends AbstractMiniAppletSignaturePlugi
 
     @Override
     public String filter(HttpServletRequest request, SignaturesSetWeb signaturesSet, Map<String, Object> parameters) {
-        // A priori no tenim manera de saber si l'usuari ja existeix o no a viafirma
+        //Comprovam si l'usuari ja existeix o no a viafirma
         try {
-            getApi();
+            FortressApi api = getApi();
+            
+            String dni = signaturesSet.getCommonInfoSignature().getAdministrationID();
+            try {
+
+                // XYZ ZZZ 
+                String tmpWeb="https://localhost:8080/portafib";
+                
+                String accessToken = getToken(tmpWeb);
+                
+                
+                UserStatus us = api.getUserStatus(accessToken, dni);
+                
+                // XYZ ZZZ
+                log.info("User Status => Hem trobat l'usuari " + dni);
+                log.info("User Status => us.isAuth(): " + us.isAuth());
+                log.info("User Status => us.isSign(): " + us.isSign());
+
+                if (!us.isAuth()) {
+                    return "L'usuari " + dni + " no té permís per Autenticar-se";
+                }
+                if (!us.isSign()) {
+                    return "L'usuari " + dni + " no té permís per Firmar";
+                }
+                
+
+            } catch (com.viafirma.fortress.sdk.exception.UserNotFoundException userNotFoundException) {
+                return "User Status => L'usuari amb " + dni + " no està donat d'alta a Fortress";
+            }
+
         } catch (Exception e) {
-            String msg = "No puc connectar amb el servidor de Via Firma: " + e.getMessage();
+            String msg = "Error durant la connexio amb el servidor de Via Firma: " + e.getMessage();
             log.error(msg, e);
             return msg;
         }
