@@ -1,10 +1,7 @@
 
 
 
-pdffile.source=./hola.pdf
 
-pdffile.dest=./hola_firmat.pdf
+pdf.source=./hola.pdf
 
-p12.file=./NadalBennasarAntoniFNMT.p12
-
-p12.password=myp12password
+pdf.dest=./hola_firmat.pdf
