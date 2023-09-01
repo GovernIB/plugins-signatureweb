@@ -1,9 +1,9 @@
 package org.fundaciobit.pluginsib.signatureweb.firmanocriptografica;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.fundaciobit.plugins.signature.api.PropertyInfo;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
 
@@ -11,25 +11,22 @@ import org.fundaciobit.plugins.signatureweb.api.AbstractSignatureWebPlugin;
 
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-
 import es.caib.evidenciesib.apiexterna.client.api.EvidenciesApi;
+import es.caib.evidenciesib.apiexterna.client.model.ConstantsWs;
 import es.caib.evidenciesib.apiexterna.client.model.EvidenciaFile;
 import es.caib.evidenciesib.apiexterna.client.model.EvidenciaFileBase64;
 import es.caib.evidenciesib.apiexterna.client.model.EvidenciaStartRequest;
 import es.caib.evidenciesib.apiexterna.client.model.EvidenciaStartResponse;
 import es.caib.evidenciesib.apiexterna.client.model.EvidenciaWs;
 import es.caib.evidenciesib.apiexterna.client.services.ApiClient;
-import es.caib.evidenciesib.apiexterna.client.services.ApiException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -43,15 +40,14 @@ import java.util.Properties;
  */
 public class FirmaNoCriptograficaSignatureWebPlugin extends AbstractSignatureWebPlugin {
 
+    public static final ConstantsWs C = new ConstantsWs();
+
     public static final String FIRMANOCRIPTOGRAFICA_BASE_PROPERTIES = PLUGINSIB_SIGNATUREWEB_BASE_PROPERTY
             + "firmanocriptografica.";
 
     private static final Map<String, StatusFirmaNoCriptografica> statusBySignatureSetID = new HashMap<String, StatusFirmaNoCriptografica>();
 
     private static final Map<String, Map<String, Object>> parametersBySignatureSetID = new HashMap<String, Map<String, Object>>();
-
-    static {
-    }
 
     /**
      * 
@@ -108,63 +104,90 @@ public class FirmaNoCriptograficaSignatureWebPlugin extends AbstractSignatureWeb
             String relativePluginRequestPath, SignaturesSetWeb signaturesSet, Map<String, Object> parameters)
             throws Exception {
 
-        addSignaturesSet(signaturesSet);
-        final String signatureSetID = signaturesSet.getSignaturesSetID();
-
-        log.info("signDocuments()::Parameters -> " + parameters.size());
-
-        parametersBySignatureSetID.put(signatureSetID, parameters);
-
-        final String returnUrl = absolutePluginRequestPath + "/" + CALLBACK_PAGE + "/{0}";
-
         final CommonInfoSignature common = signaturesSet.getCommonInfoSignature();
 
-        final String language = common.getLanguageUI();
+        try {
+            addSignaturesSet(signaturesSet);
+            final String signatureSetID = signaturesSet.getSignaturesSetID();
 
-        EvidenciaStartRequest start = new EvidenciaStartRequest();
+            log.info("signDocuments()::Parameters -> " + parameters.size());
 
-        start.setCallBackUrl(returnUrl);
+            parametersBySignatureSetID.put(signatureSetID, parameters);
 
-        FileInfoSignature fis = signaturesSet.getFileInfoSignatureArray()[0];
+            final String returnUrl = absolutePluginRequestPath + "/" + CALLBACK_PAGE + "/{0}";
 
-        File f = fis.getFileToSign();
+            final String language = common.getLanguageUI();
 
-        byte[] docToSign = FileUtils.readFileToByteArray(f);
+            EvidenciaStartRequest start = new EvidenciaStartRequest();
 
-        EvidenciaFile ef = new EvidenciaFile();
-        ef.setDescription(null);
-        ef.setDocument(docToSign);
-        ef.setEncryptedFileID(null);
-        ef.setMime(fis.getMimeType());
-        ef.setName(f.getName());
-        ef.setSize((long) docToSign.length);
+            start.setCallBackUrl(returnUrl);
 
-        start.setDocumentASignar(ef);
-        start.setLanguageDocument(fis.getLanguageSign());
-        start.setLanguageUI(language);
-        start.setPersonaNif(common.getAdministrationID());
+            FileInfoSignature fis = signaturesSet.getFileInfoSignatureArray()[0];
 
-        // XYZ ZZZ ZZZ TODO
-        start.setPersonaLlinatge1("Gonella");
-        // XYZ ZZZ ZZZ TODO
-        start.setPersonaLlinatge2("Rondalles");
-        // XYZ ZZZ ZZZ TODO
-        start.setPersonaNom("Pep");
-        // XYZ ZZZ ZZZ TODO
-        start.setPersonaEmail("pepgonella@fundaciobit.org");
+            File f = fis.getFileToSign();
 
-        start.setRaoDeLaFirma(fis.getReason());
-        start.setTitolEvidencia("PluginFirmaNoCripto_" + signatureSetID);
+            byte[] docToSign = FileUtils.readFileToByteArray(f);
 
-        EvidenciaStartResponse response = getApi().start(start);
+            EvidenciaFile ef = new EvidenciaFile();
+            ef.setDescription(null);
+            ef.setDocument(docToSign);
+            ef.setEncryptedFileID(null);
+            ef.setMime(fis.getMimeType());
+            ef.setName(f.getName());
+            ef.setSize((long) docToSign.length);
 
-        statusBySignatureSetID.put(signatureSetID, new StatusFirmaNoCriptografica(response.getEvidenciaID()));
+            start.setDocumentASignar(ef);
+            start.setLanguageDocument(fis.getLanguageSign());
+            start.setLanguageUI(language);
+            start.setPersonaNif(common.getAdministrationID());
+            start.setPersonaUsername(common.getUsername());
 
-        // XYZ ZZZ Falta TRY-CATCH !!!!
+            start.setPersonaLlinatge1(null);
+            start.setPersonaLlinatge2(null);
+            start.setPersonaNom(null);
+            start.setPersonaEmail(null);
+            start.setPersonaMobil(null);
 
-        // Mostrar pagina principal
-        return response.getEvidenciaUrlRedirect().toString();
-        //relativePluginRequestPath + "/" + PAGINA_PRINCIPAL_PAGE;
+            start.setRaoDeLaFirma(fis.getReason());
+            start.setTitolEvidencia("PluginFirmaNoCripto_" + signatureSetID);
+
+            EvidenciaStartResponse response = getApi().start(start);
+
+            statusBySignatureSetID.put(signatureSetID, new StatusFirmaNoCriptografica(response.getEvidenciaID(),
+                    response.getEvidenciaUrlRedirect().toString()));
+
+            // Mostrar pagina principal
+            return relativePluginRequestPath + "/" + PAGINA_PRINCIPAL_PAGE;
+
+        } catch (Throwable th) {
+
+            log.error("Error Establint inici de comunicació amb EvidènciesIB: " + th.getMessage() + " [CLASS: "
+                    + th.getClass().getName() + "]", th);
+
+            StatusSignaturesSet ss = signaturesSet.getStatusSignaturesSet();
+
+            ss.setStatus(StatusSignature.STATUS_FINAL_ERROR);
+
+            ss.setErrorException(th);
+
+            String msg;
+            Throwable cause = th.getCause();
+            if (cause == null) {
+                msg = th.getMessage();
+            } else {
+                if (th instanceof java.lang.reflect.InvocationTargetException) {
+                    msg = cause.getMessage();
+                } else {
+                    msg = th.getMessage() + "(" + cause.getMessage() + ")";
+                }
+            }
+
+            ss.setErrorMsg(getTraduccio("error.firmantdocument", new Locale(common.getLanguageUI()), msg));
+
+            final String url = signaturesSet.getUrlFinal();
+
+            return url;
+        }
 
     }
 
@@ -183,21 +206,17 @@ public class FirmaNoCriptograficaSignatureWebPlugin extends AbstractSignatureWeb
             SignaturesSetWeb signaturesSet, int signatureIndex, HttpServletRequest request,
             HttpServletResponse response, Locale locale) {
 
-        //final SignIDAndIndex sai = new SignIDAndIndex(signaturesSet, signatureIndex);
-        //final String lang = locale.getLanguage();
-        /*
+        final SignIDAndIndex sai = new SignIDAndIndex(signaturesSet, signatureIndex);
+
         if (relativePath.startsWith(PAGINA_PRINCIPAL_PAGE)) {
-        
-            PrintWriter out = generateHeader(request, response, absolutePluginRequestPath,
-                    relativePluginRequestPath, lang, sai, signaturesSet);
-            paginaPrincipalGET(request, relativePluginRequestPath, relativePath, signaturesSet, out,
-                    locale);
-        
-            generateFooter(out, sai, signaturesSet);
-        }  else */ if (relativePath.startsWith(CALLBACK_PAGE)) {
+
+            paginaPrincipalGET(absolutePluginRequestPath, relativePluginRequestPath, request, response, relativePath,
+                    signaturesSet, locale, sai);
+
+        } else if (relativePath.startsWith(CALLBACK_PAGE)) {
 
             callBackDesDeEvidenciesIB(absolutePluginRequestPath, relativePluginRequestPath, request, response,
-                    signaturesSet, locale);
+                    signaturesSet, locale, sai);
 
         } else {
             super.requestGET(absolutePluginRequestPath, relativePluginRequestPath, relativePath, signaturesSet,
@@ -206,38 +225,17 @@ public class FirmaNoCriptograficaSignatureWebPlugin extends AbstractSignatureWeb
 
     }
 
-    @Override
-    public void requestPOST(String absolutePluginRequestPath, String relativePluginRequestPath, String relativePath,
-            SignaturesSetWeb signaturesSet, int signatureIndex, HttpServletRequest request,
-            HttpServletResponse response, Locale locale) {
-
-        //        final SignIDAndIndex sai = new SignIDAndIndex(signaturesSet, signatureIndex);
-        //        final String lang = locale.getLanguage();
-
-        if (relativePath.startsWith(CALLBACK_PAGE)) {
-
-            callBackDesDeEvidenciesIB(absolutePluginRequestPath, relativePluginRequestPath, request, response,
-                    signaturesSet, locale);
-
-        } else {
-
-            super.requestPOST(absolutePluginRequestPath, relativePluginRequestPath, relativePath, signaturesSet,
-                    signatureIndex, request, response, locale);
-
-        }
-
-    }
-
     // ---------------------------------------------------------------------------
     // ---------------------------------------------------------------------------
-    // ------------------------------------ CALLBACK DES DE EVIDENCIES -------------------------------
+    // ---------------------- CALLBACK DES DE EVIDENCIES -------------------------
     // ---------------------------------------------------------------------------
     // ---------------------------------------------------------------------------
 
     private static final String CALLBACK_PAGE = "callback";
 
     private void callBackDesDeEvidenciesIB(String absolutePluginRequestPath, String relativePluginRequestPath,
-            HttpServletRequest request, HttpServletResponse response, SignaturesSetWeb signaturesSet, Locale locale) {
+            HttpServletRequest request, HttpServletResponse response, SignaturesSetWeb signaturesSet, Locale locale,
+            final SignIDAndIndex sai) {
 
         final String signaturesSetID = signaturesSet.getSignaturesSetID();
 
@@ -255,8 +253,7 @@ public class FirmaNoCriptograficaSignatureWebPlugin extends AbstractSignatureWeb
 
             log.info(" CALL BACK ESTAT => " + evi.getEstatCodiDescripcio());
 
-            // XYZ ZZZ TODO CANVIAR PER CONSTANT
-            if (evi.getEstatCodi() == 10) {
+            if (evi.getEstatCodi() == C.getEVIDENCIAESTATCODISIGNAT()) {
 
                 EvidenciaFile efile = evi.getFitxerSignat();
 
@@ -267,7 +264,7 @@ public class FirmaNoCriptograficaSignatureWebPlugin extends AbstractSignatureWeb
                 File f = File.createTempFile("PLUGIN_FIRMA_NO_CRIPTO_" + evidenciaID + "_", "_" + file.getName());
 
                 FileOutputStream fos = new FileOutputStream(f);
-                fos.write(Base64.decodeBase64(file.getDocumentBase64()));
+                fos.write(Base64.getDecoder().decode(file.getDocumentBase64()));
                 fos.flush();
                 fos.close();
 
@@ -291,7 +288,6 @@ public class FirmaNoCriptograficaSignatureWebPlugin extends AbstractSignatureWeb
             signaturesSet.getStatusSignaturesSet().setStatus(StatusSignaturesSet.STATUS_FINAL_OK);
 
         } catch (Throwable th) {
-            // TODO Mirar certs tipus d'excepció
 
             log.error("Error Firmant: " + th.getMessage() + " [CLASS: " + th.getClass().getName() + "]", th);
 
@@ -309,37 +305,32 @@ public class FirmaNoCriptograficaSignatureWebPlugin extends AbstractSignatureWeb
                 msg = th.getMessage();
             }
 
-            ss.setErrorMsg(getTraduccio("error.firmantdocument", locale) + ":" + msg);
+            ss.setErrorMsg(getTraduccio("error.firmantdocument", locale, msg));
+
         }
+
+        // Estam en la finestra nova 
+
+        // (1) Hem de carregar la pagina de final al iframe
+        // (2) Hem de tancar aquesta finestra
+
+        PrintWriter out = generateHeader(request, response, absolutePluginRequestPath, relativePluginRequestPath,
+                locale.getLanguage(), sai, signaturesSet);
 
         final String url;
         url = signaturesSet.getUrlFinal();
 
-        sendRedirect(response, url);
+        out.println("<script type=\"text/javascript\">" + "\n");
+        out.println("    window.opener.location.href='" + url + "';\n");
+        out.println("    setTimeout(() => { window.close(); }, 1000);" + "\n");
+        out.println("</script>" + "\n");
+        out.println("<center>" + "\n");
+        out.println("<img onClick='window.close();' src=\"" + relativePluginRequestPath + "/" + WEBRESOURCE
+                + "/img/ajax-loader2.gif\" />" + "\n");
+        out.println("</center>\n");
 
-    }
+        generateFooter(out, sai, signaturesSet);
 
-    protected File guardaFitxer(EvidenciesApi api, final String language, Long evidenciaID, EvidenciaFile efile,
-            String fileType) throws ApiException, FileNotFoundException, IOException {
-
-        if (efile == null) {
-
-            return null;
-        }
-
-        String encryptedFile = efile.getEncryptedFileID();
-
-        EvidenciaFile file = api.getfile(evidenciaID, encryptedFile, language);
-
-        File f = new File("EVI_" + evidenciaID + "_" + fileType + "_" + file.getName());
-
-        FileOutputStream fos = new FileOutputStream(f);
-        fos.write(file.getDocument());
-        fos.flush();
-        fos.close();
-
-        System.out.println("Gardat Fitxer " + fileType + " a " + f.getName());
-        return f;
     }
 
     // ----------------------------------------------------------------------------
@@ -347,103 +338,34 @@ public class FirmaNoCriptograficaSignatureWebPlugin extends AbstractSignatureWeb
     // ------------------ P A G I N A - P R I N C I P A L -------------------
     // ----------------------------------------------------------------------------
     // ----------------------------------------------------------------------------
-    /*
-    private static final String PAGINA_PRINCIPAL_PAGE = "paginaprincipal";
-    
-    private void paginaPrincipalGET(HttpServletRequest request, String relativePluginRequestPath,
-            String query, SignaturesSetWeb signaturesSet, PrintWriter out, Locale locale) {
-    
-        // TODO XXX XYZ
-        out.println("<h3>Necessitam confirmar que es vosté ...</h3>");
-        // TODO XXX XYZ
-        out.println(
-                "<h5>Ens ha de proporcionar evidències de la seva persona fins a aconseguir 100 punts.<br/>"
-                        + "Serà en aquest moment en que podrà signar ..." + "</h5>");
-        out.println("<table class=\"table table-striped\">");
-        out.println("<thead>\r\n" + "    <tr>\r\n" + "      <th scope=\"col\">Evidència</th>\r\n"
-                + "      <th scope=\"col\">Punts<br/>Disponibles</th>\r\n"
-                + "      <th scope=\"col\">Punts<br/>Aconseguits</th>\r\n" + "    </tr>\r\n"
-                + "  </thead>\r\n" + "  <tbody>");
-    
-        StatusFirmaNoCriptografica status = statusBySignatureSetID
-                .get(signaturesSet.getSignaturesSetID());
-    
-        Map<String, Integer> mappunts = status.getEvidenciesPuntsMap();
-    
-        int totalpunts = 0;
-    
-        for (String codi : mappunts.keySet()) {
-    
-            IEvidencia e = EVIDENCESBYCODE.get(codi);
-    
-            out.println("<tr>");
-            out.println("<td><b>" + e.getTitol() + "</b>"
-                    + "<br/><small>" + e.getSubtitol() + "</small>" + "</td>"); // XYZ ZZZ
-    
-            out.println("<td>" + e.getPunts() + "</td>");
-    
-            out.println("<td>");
-            Integer punts = mappunts.get(e.getCodi());
-            if (punts == null) {
-                String path = relativePluginRequestPath + "/evidencia" + codi;
-                String label = "Aconseguir punts"; // getTraduccio("cancel", locale); XYZ ZZZ
-                String htmlCode = generateButton(path, label, "btn-success");
-                out.println(htmlCode);
-    
-            } else {
-                out.println("<b>" + punts + "</b>");
-                totalpunts = totalpunts + punts;
-            }
-    
-            out.println("</td>");
-    
-            out.println("</tr>");
-    
-        }
-    
-        out.println("<tr>");
-        out.println("<td colspan=\"2\"><i>Total Punts: </i></td>"); // XYZ ZZZ
-        out.println("<td>" + totalpunts + "</td>");
-        out.println("</tr>");
-    
-    
-        out.println("</tbody>");
-        out.println("</table>");
-        out.println("<br />");
-    
-        out.println("&nbsp;&nbsp;");
-    
-        if (totalpunts >= 100) {
-            String path = relativePluginRequestPath + "/" + FIRMAR_PAGE;
-            String label = getTraduccio("firmadocument", locale);
-            String htmlCode = generateButton(path, label, "btn-primary");
-            out.println(htmlCode);
-            out.println("&nbsp;&nbsp;");
-        }
-    
-        {
-            String path = relativePluginRequestPath + "/" + CANCEL_PAGE;
-            String label = getTraduccio("cancel", locale);
-            String htmlCode = generateButton(path, label, "btn-warning");
-            out.println(htmlCode);
-        }
-    
-    
-    }
-    
-    */
 
-    // ----------------------------------------------------------------------------
-    // ----------------------------------------------------------------------------
-    // ---------------------- U T I L I T A T S H T M L -------------------
-    // ----------------------------------------------------------------------------
-    // ----------------------------------------------------------------------------
-    // TODO
-    //    protected String generateButton(String path, String label, String tipus) {
-    //        String htmlCode = "<button class=\"btn " + tipus + "\" type=\"button\"  onclick=\"location.href='" + path
-    //                + "'\" >" + label + "</button>";
-    //        return htmlCode;
-    //    }
+    private static final String PAGINA_PRINCIPAL_PAGE = "paginaprincipal";
+
+    private void paginaPrincipalGET(String absolutePluginRequestPath, String relativePluginRequestPath,
+            HttpServletRequest request, HttpServletResponse response, String query, SignaturesSetWeb signaturesSet,
+            Locale locale, final SignIDAndIndex sai) {
+
+        final String signaturesSetID = signaturesSet.getSignaturesSetID();
+
+        StatusFirmaNoCriptografica sfnc = statusBySignatureSetID.get(signaturesSetID);
+
+        PrintWriter out = generateHeader(request, response, absolutePluginRequestPath, relativePluginRequestPath,
+                locale.getLanguage(), sai, signaturesSet);
+
+        out.println("<script type=\"text/javascript\">" + "\n");
+        out.println("    window.open('" + sfnc.getUrlEvidencies() + "', \"_blank\");\n");
+        out.println("</script>" + "\n");
+        out.println("<center>" + "\n");
+        out.println("<h4> " + getTraduccio("esperar", locale) + " </h4><br/>" + "\n");
+        out.println(
+                "<img src=\"" + relativePluginRequestPath + "/" + WEBRESOURCE + "/img/ajax-loader2.gif\" />" + "\n");
+        out.println("</center>");
+
+        out.flush();
+
+        generateFooter(out, sai, signaturesSet);
+
+    }
 
     @Override
     public String getResourceBundleName() {
@@ -567,41 +489,65 @@ public class FirmaNoCriptograficaSignatureWebPlugin extends AbstractSignatureWeb
         }
     }
 
+    /**
+     * Indicam que no volem que es validi el NIF de l'usuari que ha de signar amb el NIF que apareix a la firma digital.
+     */
+    @Override
+    public boolean administrationIdCanBeValidated() {
+        return false;
+    }
 
+    @Override
+    public List<PropertyInfo> getAvailableProperties(String propertyKeyBase) {
 
-    protected EvidenciesApi getApi() throws Exception {
+        if (propertyKeyBase == null) {
+            propertyKeyBase = super.getPropertyKeyBase();
+        }
+
+        List<PropertyInfo> list = new ArrayList<PropertyInfo>();
+
+        {
+            PropertyInfo pi = new PropertyInfo();
+            pi.setKey(propertyKeyBase + FIRMANOCRIPTOGRAFICA_BASE_PROPERTIES + "evidencies.host");
+            pi.setExamples(new String[] {});
+            list.add(pi);
+        }
+        {
+            PropertyInfo pi = new PropertyInfo();
+            pi.setKey(propertyKeyBase + FIRMANOCRIPTOGRAFICA_BASE_PROPERTIES + "evidencies.host");
+            pi.setExamples(new String[] {});
+            list.add(pi);
+        }
+        {
+            PropertyInfo pi = new PropertyInfo();
+            pi.setKey(propertyKeyBase + FIRMANOCRIPTOGRAFICA_BASE_PROPERTIES + "evidencies.username");
+            pi.setExamples(new String[] {});
+            list.add(pi);
+        }
+        {
+            PropertyInfo pi = new PropertyInfo();
+            pi.setKey(propertyKeyBase + FIRMANOCRIPTOGRAFICA_BASE_PROPERTIES + "evidencies.password");
+            pi.setExamples(new String[] { "true", "false" });
+            list.add(pi);
+        }
+
+        return list;
+
+    }
+
+    private EvidenciesApi getApi() throws Exception {
 
         ApiClient apiclient = new ApiClient();
-
-        SimpleModule modul = new SimpleModule();
-        
-        System.out.println("\n\nFIRMA NO CRIPTO REGISTANT MyByteArraySerializer !!!!\n\n");
-        modul.addDeserializer(byte[].class, new MyByteArraySerializer());
-        apiclient.getJSON().getContext(null).registerModule(modul);
-        apiclient.getJSON().getContext(byte[].class).registerModule(modul);
 
         apiclient.setBasePath(getPropertyRequired(FIRMANOCRIPTOGRAFICA_BASE_PROPERTIES + "evidencies.host"));
         apiclient.setUsername(getPropertyRequired(FIRMANOCRIPTOGRAFICA_BASE_PROPERTIES + "evidencies.username"));
         apiclient.setPassword(getPropertyRequired(FIRMANOCRIPTOGRAFICA_BASE_PROPERTIES + "evidencies.password"));
 
-        apiclient.setDebugging(true);
+        apiclient.setDebugging("true".equals(getProperty(FIRMANOCRIPTOGRAFICA_BASE_PROPERTIES + "evidencies.debug")));
 
         EvidenciesApi api = new EvidenciesApi(apiclient);
 
         return api;
-    }
-
-    public static class MyByteArraySerializer extends com.fasterxml.jackson.databind.JsonDeserializer<byte[]> {
-        @Override
-        public byte[] deserialize(JsonParser p, DeserializationContext ctx) throws IOException {
-
-            System.out.println("\n\nFIRMA NO CRIPTO MyByteArraySerializer ==> PASSA !!!!\n\n");
-
-            String str = p.getText();
-
-            return Base64.decodeBase64(str);
-
-        }
     }
 
 }

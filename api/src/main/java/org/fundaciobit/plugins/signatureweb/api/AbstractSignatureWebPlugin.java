@@ -543,4 +543,9 @@ public abstract class AbstractSignatureWebPlugin extends
         return null;
     }
 
+    @Override
+    public boolean administrationIdCanBeValidated() {
+        return true;
+    }
+
 }
