@@ -351,14 +351,29 @@ public class FirmaNoCriptograficaSignatureWebPlugin extends AbstractSignatureWeb
 
         PrintWriter out = generateHeader(request, response, absolutePluginRequestPath, relativePluginRequestPath,
                 locale.getLanguage(), sai, signaturesSet);
+        
+        
+        final String cancelURL = relativePluginRequestPath + "/" + CANCEL_PAGE;
+        
 
         out.println("<script type=\"text/javascript\">" + "\n");
-        out.println("    window.open('" + sfnc.getUrlEvidencies() + "', \"_blank\");\n");
+        out.println("    let windowObjectReference = null;\n");
+        out.println("    windowObjectReference = window.open('" + sfnc.getUrlEvidencies() + "', '_blank');\n");
+        out.println("    function cancelEvidencia() {"  + "\n");
+        out.println("        if (windowObjectReference === null || windowObjectReference.closed) {" + "\n");
+        out.println("           // No fer res;" + "\n");
+        out.println("        } else {" + "\n");
+        out.println("           windowObjectReference.close();" + "\n");
+        out.println("        }" + "\n");
+        out.println("        document.location.href = '" + cancelURL + "';" + "\n");
+        out.println("    }" + "\n");
         out.println("</script>" + "\n");
         out.println("<center>" + "\n");
         out.println("<h4> " + getTraduccio("esperar", locale) + " </h4><br/>" + "\n");
-        out.println(
-                "<img src=\"" + relativePluginRequestPath + "/" + WEBRESOURCE + "/img/ajax-loader2.gif\" />" + "\n");
+        out.println("<img src=\"" + relativePluginRequestPath + "/" + WEBRESOURCE + "/img/ajax-loader2.gif\" />" + "\n");
+        out.println("<br/><br/><input id=\"cancel\" name=\"cancel\" class=\"btn btn-warning btn-large\"\r\n"
+                + "                             onclick=\"cancelEvidencia();\"\r\n"
+                + "                             value=\"" + getTraduccio("cancel", locale) + "\" />");
         out.println("</center>");
 
         out.flush();
