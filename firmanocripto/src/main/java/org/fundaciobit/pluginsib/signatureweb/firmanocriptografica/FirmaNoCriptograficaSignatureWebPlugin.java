@@ -357,16 +357,23 @@ public class FirmaNoCriptograficaSignatureWebPlugin extends AbstractSignatureWeb
         
 
         out.println("<script type=\"text/javascript\">" + "\n");
-        out.println("    let windowObjectReference = null;\n");
-        out.println("    windowObjectReference = window.open('" + sfnc.getUrlEvidencies() + "', '_blank');\n");
-        out.println("    function cancelEvidencia() {"  + "\n");
-        out.println("        if (windowObjectReference === null || windowObjectReference.closed) {" + "\n");
-        out.println("           // No fer res;" + "\n");
-        out.println("        } else {" + "\n");
-        out.println("           windowObjectReference.close();" + "\n");
-        out.println("        }" + "\n");
-        out.println("        document.location.href = '" + cancelURL + "';" + "\n");
-        out.println("    }" + "\n");
+        out.println("    let windowObjectReference = null;");
+        out.println("\n");
+        out.println("    reintentar();");
+        out.println("\n");
+        out.println("    function reintentar() {");
+        out.println("      windowObjectReference = window.open('" + sfnc.getUrlEvidencies() + "', '_blank');");
+        out.println("    }");
+        out.println("\n");
+        out.println("    function cancelEvidencia() {");
+        out.println("        if (windowObjectReference === null || windowObjectReference.closed) {");
+        out.println("           // No fer res;");
+        out.println("        } else {");
+        out.println("           windowObjectReference.close();");
+        out.println("        }");
+        out.println("        document.location.href = '" + cancelURL + "';");
+        out.println("    }");
+        out.println("\n");
         out.println("</script>" + "\n");
         out.println("<center>" + "\n");
         out.println("<h4> " + getTraduccio("esperar", locale) + " </h4><br/>" + "\n");
@@ -374,6 +381,10 @@ public class FirmaNoCriptograficaSignatureWebPlugin extends AbstractSignatureWeb
         out.println("<br/><br/><input id=\"cancel\" name=\"cancel\" class=\"btn btn-warning btn-large\"\r\n"
                 + "                             onclick=\"cancelEvidencia();\"\r\n"
                 + "                             value=\"" + getTraduccio("cancel", locale) + "\" />");
+        
+        out.println("<br/><br/><h4> " + getTraduccio("pipellabloquejada", locale) + " </h4>" + "\n");
+        out.println("<br/><button class=\"btn btn-succes btn-large\" onclick=\"reintentar();\">");
+        out.println("       &#8634; " + getTraduccio("reintentar", locale) + "</button>");
         out.println("</center>");
 
         out.flush();
