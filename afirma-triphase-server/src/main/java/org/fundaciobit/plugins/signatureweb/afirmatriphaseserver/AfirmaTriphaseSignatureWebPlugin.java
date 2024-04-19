@@ -1573,7 +1573,12 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
 
       formatBatch = "XAdES";
       formatMobile = "XAdEStri";
-      formatSign = configProperties.getProperty(FORMAT_SIGN);
+      String formatSignTmp = configProperties.getProperty(FORMAT_SIGN);
+      if (formatSignTmp == null) {
+          formatSign = "XAdES";
+      } else {
+          formatSign = formatSignTmp;
+      }
 
     } else if (FileInfoSignature.SIGN_TYPE_CADES.equals(signType)
         || FileInfoSignature.SIGN_TYPE_SMIME.equals(signType)) {
@@ -1600,6 +1605,12 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
       return null;
     }
 
+    
+    log.info("");
+    log.info(" XYZ ZZZ ZZZ formatMobile: " + formatMobile  );
+    log.info(" XYZ ZZZ ZZZ formatBatch: " + formatBatch);
+    log.info(" XYZ ZZZ ZZZ formatSign: " + formatSign);
+    log.info("");
     
     configProperties.put(FORMAT_MOBILE, formatMobile);
     configProperties.put(FORMAT_BATCH, formatBatch);
