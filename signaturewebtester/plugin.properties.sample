@@ -9,9 +9,6 @@ pluginsib.signatureweb.fortress.client_secret=b53dg34ffgac49f0939c9fd28bba2250
 pluginsib.signatureweb.fortress.debug=true
 
 
-
-
-
 plugins.signatureweb.fire.class=org.fundaciobit.plugins.signatureweb.fire.FIReSignatureWebPlugin
 plugins.signatureweb.fire.debug=true
 plugins.signatureweb.fire.appid=TEST
@@ -35,17 +32,11 @@ plugins.signatureweb.fire.ignore_certificate_filter=true
 plugins.signatureweb.fire.userspattern={1}
 
 
-
-
-
 plugins.signatureweb.autofirma.class=org.fundaciobit.plugins.signatureweb.afirmatriphaseserver.AfirmaTriphaseSignatureWebPlugin
 plugins.signatureweb.autofirma.debug=true
 plugins.signatureweb.autofirma.headless=false
 plugins.signatureweb.autofirma.firefoxinwindowsuseoskeystore=true
 plugins.signatureweb.autofirma.timeoutbase=600
-
-
-
 
 
 plugins.signatureweb.miniappletinserversia.class=org.fundaciobit.plugins.signatureweb.miniappletinserversia.MiniAppletInServerSIASignatureWebPlugin
@@ -56,7 +47,6 @@ plugins.signatureweb.miniappletinserversia.SSL_PROTOCOL=TLSv1
 plugins.signatureweb.miniappletinserversia.ForceSFDA=false
 plugins.signatureweb.miniappletinserversia.userspattern=XXX_{1}
 plugins.signatureweb.miniappletinserversia.skip_certificate_selection=true
-
 
 
 
