@@ -8,17 +8,16 @@ import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
 
 import org.fundaciobit.plugins.signatureweb.api.AbstractSignatureWebPlugin;
-
 import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
 
-import es.caib.evidenciesib.apiexterna.client.api.EvidenciesApi;
-import es.caib.evidenciesib.apiexterna.client.model.ConstantsWs;
-import es.caib.evidenciesib.apiexterna.client.model.EvidenciaFile;
-import es.caib.evidenciesib.apiexterna.client.model.EvidenciaFileBase64;
-import es.caib.evidenciesib.apiexterna.client.model.EvidenciaStartRequest;
-import es.caib.evidenciesib.apiexterna.client.model.EvidenciaStartResponse;
-import es.caib.evidenciesib.apiexterna.client.model.EvidenciaWs;
-import es.caib.evidenciesib.apiexterna.client.services.ApiClient;
+import es.caib.evidenciesib.api.externa.client.evidencies.v1.api.EvidenciesApi;
+import es.caib.evidenciesib.api.externa.client.evidencies.v1.model.ConstantsWs;
+import es.caib.evidenciesib.api.externa.client.evidencies.v1.model.EvidenciaFile;
+import es.caib.evidenciesib.api.externa.client.evidencies.v1.model.EvidenciaFileBase64;
+import es.caib.evidenciesib.api.externa.client.evidencies.v1.model.EvidenciaStartRequest;
+import es.caib.evidenciesib.api.externa.client.evidencies.v1.model.EvidenciaStartResponse;
+import es.caib.evidenciesib.api.externa.client.evidencies.v1.model.EvidenciaWs;
+import es.caib.evidenciesib.api.externa.client.evidencies.v1.services.ApiClient;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
