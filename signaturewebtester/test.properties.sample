@@ -2,7 +2,7 @@
 # Adreça de l'aplicació
 # Tenir en compte que no podem emprar localhost o 127.0.0.1, ja que Autofirma no permet
 # executar-se contra aquestes adreces, cal posar una altre adreça de la màquina
-endpoint=http://192.168.1.100:8080/signaturewebtester/
+endpoint=http://localhost:8080/signaturewebtester/
 
 # Plugin FIRe
 fire.nif=99999999R

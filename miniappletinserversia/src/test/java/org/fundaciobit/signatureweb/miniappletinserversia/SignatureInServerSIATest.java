@@ -5,7 +5,7 @@ import java.io.FileOutputStream;
 import java.util.Map;
 import java.util.Properties;
 
-import org.fundaciobit.plugins.signatureweb.miniappletinserversia.MiniAppletInServerSIASignatureWebPlugin;
+import org.fundaciobit.pluginsib.signatureweb.miniappletinserversia.MiniAppletInServerSIASignatureWebPlugin;
 
 import com.openlandsw.rss.gateway.CertificateInfo;
 

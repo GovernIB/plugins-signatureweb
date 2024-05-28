@@ -5,8 +5,8 @@ import com.viafirma.fortress.sdk.model.signature.Policy;
 import com.viafirma.fortress.sdk.model.signature.SignatureConfiguration;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
+import org.jboss.logging.Logger;
 
 import java.io.IOException;
 import java.util.HashMap;

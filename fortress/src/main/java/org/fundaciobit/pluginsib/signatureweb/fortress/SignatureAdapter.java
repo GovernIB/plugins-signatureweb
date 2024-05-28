@@ -9,9 +9,9 @@ import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.SignaturesSet;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
-import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSignaturePlugin;
 import org.fundaciobit.pluginsib.signatureweb.fortress.converter.SignatureConverter;
 import org.fundaciobit.pluginsib.signatureweb.fortress.converter.SignatureConverterFactory;
+import org.fundaciobit.pluginsib.signatureweb.miniappletutils.AbstractMiniAppletSignaturePlugin;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,56 +1,56 @@
 
-plugins.signatureweb=fortress,fire,autofirma,miniappletinserversia,fnmtcloud,firmanocriptografica
+pluginsib.signatureweb=fortress,fire,autofirma,miniappletinserversia,fnmtcloud,firmanocriptografica
 
 
-plugins.signatureweb.fortress.class=org.fundaciobit.pluignsib.signatureweb.fortress.FortressSignatureWebPlugin
+pluginsib.signatureweb.fortress.class=org.fundaciobit.pluignsib.signatureweb.fortress.FortressSignatureWebPlugin
 pluginsib.signatureweb.fortress.url=https://pre.firmacloud.com/fortress/
 pluginsib.signatureweb.fortress.client_id=client
 pluginsib.signatureweb.fortress.client_secret=b53dg34ffgac49f0939c9fd28bba2250
 pluginsib.signatureweb.fortress.debug=true
 
 
-plugins.signatureweb.fire.class=org.fundaciobit.plugins.signatureweb.fire.FIReSignatureWebPlugin
-plugins.signatureweb.fire.debug=true
-plugins.signatureweb.fire.appid=TEST
-plugins.signatureweb.fire.procedure=PROCEDURE
-plugins.signatureweb.fire.certOrigin=clavefirma
-plugins.signatureweb.fire.appName=Test
-plugins.signatureweb.fire.fireUrl=https://127.0.0.1:18443/fire-signature/fireService
-plugins.signatureweb.fire.javax.net.ssl.keyStore=C:/ruta/keystore.jks
-plugins.signatureweb.fire.javax.net.ssl.keyStorePassword=pass
-plugins.signatureweb.fire.javax.net.ssl.keyStoreType=JKS
-plugins.signatureweb.fire.javax.net.ssl.trustStore=all
+pluginsib.signatureweb.fire.class=org.fundaciobit.pluginsib.signatureweb.fire.FIReSignatureWebPlugin
+pluginsib.signatureweb.fire.debug=true
+pluginsib.signatureweb.fire.appid=TEST
+pluginsib.signatureweb.fire.procedure=PROCEDURE
+pluginsib.signatureweb.fire.certOrigin=clavefirma
+pluginsib.signatureweb.fire.appName=Test
+pluginsib.signatureweb.fire.fireUrl=https://127.0.0.1:18443/fire-signature/fireService
+pluginsib.signatureweb.fire.javax.net.ssl.keyStore=C:/ruta/keystore.jks
+pluginsib.signatureweb.fire.javax.net.ssl.keyStorePassword=pass
+pluginsib.signatureweb.fire.javax.net.ssl.keyStoreType=JKS
+pluginsib.signatureweb.fire.javax.net.ssl.trustStore=all
 
-plugins.signatureweb.fire.allowcertificategeneration=true
-plugins.signatureweb.fire.passfilterwhennonregistereduser=true
-plugins.signatureweb.fire.showinfowhennonregistereduser=true
-plugins.signatureweb.fire.passfilterwhenusercertificateblocked=true
-plugins.signatureweb.fire.showinfowhenusercertificateblocked=true
-plugins.signatureweb.fire.passfilterwhenuserhasweakregistry=true
-plugins.signatureweb.fire.showinfowhenuserhasweakregistry=true
-plugins.signatureweb.fire.ignore_certificate_filter=true
-plugins.signatureweb.fire.userspattern={1}
-
-
-plugins.signatureweb.autofirma.class=org.fundaciobit.plugins.signatureweb.afirmatriphaseserver.AfirmaTriphaseSignatureWebPlugin
-plugins.signatureweb.autofirma.debug=true
-plugins.signatureweb.autofirma.headless=false
-plugins.signatureweb.autofirma.firefoxinwindowsuseoskeystore=true
-plugins.signatureweb.autofirma.timeoutbase=600
+pluginsib.signatureweb.fire.allowcertificategeneration=true
+pluginsib.signatureweb.fire.passfilterwhennonregistereduser=true
+pluginsib.signatureweb.fire.showinfowhennonregistereduser=true
+pluginsib.signatureweb.fire.passfilterwhenusercertificateblocked=true
+pluginsib.signatureweb.fire.showinfowhenusercertificateblocked=true
+pluginsib.signatureweb.fire.passfilterwhenuserhasweakregistry=true
+pluginsib.signatureweb.fire.showinfowhenuserhasweakregistry=true
+pluginsib.signatureweb.fire.ignore_certificate_filter=true
+pluginsib.signatureweb.fire.userspattern={1}
 
 
-plugins.signatureweb.miniappletinserversia.class=org.fundaciobit.plugins.signatureweb.miniappletinserversia.MiniAppletInServerSIASignatureWebPlugin
-plugins.signatureweb.miniappletinserversia.URL_GATEWAY=https://gateway.pre.sia.es/rss-gateway/HESS/OperationGateWayRSS
-plugins.signatureweb.miniappletinserversia.AUTH_STORE=C:/ruta/certificat.p12
-plugins.signatureweb.miniappletinserversia.AUTH_STORE_PASS=pass
-plugins.signatureweb.miniappletinserversia.SSL_PROTOCOL=TLSv1
-plugins.signatureweb.miniappletinserversia.ForceSFDA=false
-plugins.signatureweb.miniappletinserversia.userspattern=XXX_{1}
-plugins.signatureweb.miniappletinserversia.skip_certificate_selection=true
+pluginsib.signatureweb.autofirma.class=org.fundaciobit.pluginsib.signatureweb.afirmatriphaseserver.AfirmaTriphaseSignatureWebPlugin
+pluginsib.signatureweb.autofirma.debug=true
+pluginsib.signatureweb.autofirma.headless=false
+pluginsib.signatureweb.autofirma.firefoxinwindowsuseoskeystore=true
+pluginsib.signatureweb.autofirma.timeoutbase=600
+
+
+pluginsib.signatureweb.miniappletinserversia.class=org.fundaciobit.pluginsib.signatureweb.miniappletinserversia.MiniAppletInServerSIASignatureWebPlugin
+pluginsib.signatureweb.miniappletinserversia.URL_GATEWAY=https://gateway.pre.sia.es/rss-gateway/HESS/OperationGateWayRSS
+pluginsib.signatureweb.miniappletinserversia.AUTH_STORE=C:/ruta/certificat.p12
+pluginsib.signatureweb.miniappletinserversia.AUTH_STORE_PASS=pass
+pluginsib.signatureweb.miniappletinserversia.SSL_PROTOCOL=TLSv1
+pluginsib.signatureweb.miniappletinserversia.ForceSFDA=false
+pluginsib.signatureweb.miniappletinserversia.userspattern=XXX_{1}
+pluginsib.signatureweb.miniappletinserversia.skip_certificate_selection=true
 
 
 
-plugins.signatureweb.fnmtcloud.class=org.fundaciobit.pluginsib.signatureweb.fnmtcloud.FNMTCloudSignatureWebPlugin
+pluginsib.signatureweb.fnmtcloud.class=org.fundaciobit.pluginsib.signatureweb.fnmtcloud.FNMTCloudSignatureWebPlugin
 pluginsib.signatureweb.fnmtcloud.debug=false
 pluginsib.signatureweb.fnmtcloud.trustedxURL=https://cloudid.demo.ceres.fnmt.es
 pluginsib.signatureweb.fnmtcloud.ssl.protocol=TLSv1.2
@@ -68,16 +68,16 @@ pluginsib.signatureweb.fnmtcloud.htmlbodycontent=<h1>Signature Web Tester</h1><p
 pluginsib.signatureweb.fnmtcloud.proxyEnable=false
 
 
-plugins.signatureweb.firmanocriptografica.class=org.fundaciobit.plugins.signatureweb.firmanocriptografica.FirmaNoCriptograficaSignatureWebPlugin
+pluginsib.signatureweb.firmanocriptografica.class=org.fundaciobit.pluginsib.signatureweb.firmanocriptografica.FirmaNoCriptograficaSignatureWebPlugin
 
-pluginsib.signatureweb.firmanocriptografica.serverplugin.class=org.fundaciobit.plugins.signatureserver.afirmaserver.AfirmaServerSignatureServerPlugin
+pluginsib.signatureweb.firmanocriptografica.serverplugin.class=org.fundaciobit.pluginsib.signatureserver.afirmaserver.AfirmaServerSignatureServerPlugin
 
-pluginsib.signatureweb.firmanocriptografica.serverplugin.properties.plugins.signatureserver.afirmaserver.applicationID=XXXXXX
-pluginsib.signatureweb.firmanocriptografica.serverplugin.properties.plugins.signatureserver.afirmaserver.debug=false
-pluginsib.signatureweb.firmanocriptografica.serverplugin.properties.plugins.signatureserver.afirmaserver.printxml=false
-pluginsib.signatureweb.firmanocriptografica.serverplugin.properties.plugins.signatureserver.afirmaserver.defaultAliasCertificate=serversigner
-pluginsib.signatureweb.firmanocriptografica.serverplugin.properties.plugins.signatureserver.afirmaserver.TransformersTemplatesPath=/opt/signatureserver/transformersTemplates
-pluginsib.signatureweb.firmanocriptografica.serverplugin.properties.plugins.signatureserver.afirmaserver.endpoint=https:/servidorafirma/afirmaws/services/DSSAfirmaSign
-pluginsib.signatureweb.firmanocriptografica.serverplugin.properties.plugins.signatureserver.afirmaserver.endpoint_upgrade=https://servidorafirma/afirmaws/services/DSSAfirmaVerify
-pluginsib.signatureweb.firmanocriptografica.serverplugin.properties.plugins.signatureserver.afirmaserver.authorization.username=XXXX
-pluginsib.signatureweb.firmanocriptografica.serverplugin.properties.plugins.signatureserver.afirmaserver.authorization.password=XXXX
+pluginsib.signatureweb.firmanocriptografica.serverplugin.properties.pluginsib.signatureserver.afirmaserver.applicationID=XXXXXX
+pluginsib.signatureweb.firmanocriptografica.serverplugin.properties.pluginsib.signatureserver.afirmaserver.debug=false
+pluginsib.signatureweb.firmanocriptografica.serverplugin.properties.pluginsib.signatureserver.afirmaserver.printxml=false
+pluginsib.signatureweb.firmanocriptografica.serverplugin.properties.pluginsib.signatureserver.afirmaserver.defaultAliasCertificate=serversigner
+pluginsib.signatureweb.firmanocriptografica.serverplugin.properties.pluginsib.signatureserver.afirmaserver.TransformersTemplatesPath=/opt/signatureserver/transformersTemplates
+pluginsib.signatureweb.firmanocriptografica.serverplugin.properties.pluginsib.signatureserver.afirmaserver.endpoint=https:/servidorafirma/afirmaws/services/DSSAfirmaSign
+pluginsib.signatureweb.firmanocriptografica.serverplugin.properties.pluginsib.signatureserver.afirmaserver.endpoint_upgrade=https://servidorafirma/afirmaws/services/DSSAfirmaVerify
+pluginsib.signatureweb.firmanocriptografica.serverplugin.properties.pluginsib.signatureserver.afirmaserver.authorization.username=XXXX
+pluginsib.signatureweb.firmanocriptografica.serverplugin.properties.pluginsib.signatureserver.afirmaserver.authorization.password=XXXX

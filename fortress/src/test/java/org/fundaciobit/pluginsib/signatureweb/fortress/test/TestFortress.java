@@ -6,7 +6,7 @@ import com.viafirma.fortress.sdk.exception.ApiException;
 import com.viafirma.fortress.sdk.model.AccessToken;
 import com.viafirma.fortress.sdk.model.UserStatus;
 
-import org.apache.log4j.Logger;
+import org.jboss.logging.Logger;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;

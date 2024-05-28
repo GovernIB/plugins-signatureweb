@@ -1,7 +1,7 @@
 <%@ page pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <jsp:useBean id="signatureSet" scope="request"
-    type="org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb" />
+    type="org.fundaciobit.pluginsib.signatureweb.api.SignaturesSetWeb" />
 <!DOCTYPE html>
 <html>
 <head>

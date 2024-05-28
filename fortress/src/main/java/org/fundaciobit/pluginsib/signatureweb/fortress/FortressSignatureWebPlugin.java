@@ -9,8 +9,8 @@ import com.viafirma.fortress.sdk.model.signature.SignatureRequestResponse;
 import com.viafirma.fortress.sdk.model.signature.SignatureResponse;
 import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
-import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
-import org.fundaciobit.plugins.signatureweb.miniappletutils.AbstractMiniAppletSignaturePlugin;
+import org.fundaciobit.pluginsib.signatureweb.api.SignaturesSetWeb;
+import org.fundaciobit.pluginsib.signatureweb.miniappletutils.AbstractMiniAppletSignaturePlugin;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

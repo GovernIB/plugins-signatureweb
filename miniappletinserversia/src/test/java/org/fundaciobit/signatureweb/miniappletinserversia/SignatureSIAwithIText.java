@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.fundaciobit.plugins.signatureweb.miniappletinserversia.MiniAppletInServerSIASignatureWebPlugin;
-import org.fundaciobit.pluginsib.core.utils.CertificateUtils;
+import org.fundaciobit.pluginsib.core.v3.utils.CertificateUtils;
+import org.fundaciobit.pluginsib.signatureweb.miniappletinserversia.MiniAppletInServerSIASignatureWebPlugin;
 
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.ExceptionConverter;

@@ -6,9 +6,8 @@ import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 import org.fundaciobit.plugins.signature.api.PropertyInfo;
 import org.fundaciobit.plugins.signature.api.StatusSignature;
 import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
-
-import org.fundaciobit.plugins.signatureweb.api.AbstractSignatureWebPlugin;
-import org.fundaciobit.plugins.signatureweb.api.SignaturesSetWeb;
+import org.fundaciobit.pluginsib.signatureweb.api.AbstractSignatureWebPlugin;
+import org.fundaciobit.pluginsib.signatureweb.api.SignaturesSetWeb;
 
 import es.caib.evidenciesib.api.externa.client.evidencies.v1.api.EvidenciesApi;
 import es.caib.evidenciesib.api.externa.client.evidencies.v1.model.ConstantsWs;

@@ -1,0 +1,12 @@
+
+
+# ------------------------------------------------------------------
+# ------------------  FIRMA NO CRIPTOGRAFICA  ----------------------
+# ------------------------------------------------------------------
+
+# Class => org.fundaciobit.pluginsib.signatureweb.firmanocriptografica.FirmaNoCriptograficaSignatureWebPlugin
+
+pluginsib.signatureweb.firmanocriptografica.evidencies.host=http://anadal:8888/evidenciesibapi/externa
+pluginsib.signatureweb.firmanocriptografica.evidencies.username=appusername
+pluginsib.signatureweb.firmanocriptografica.evidencies.password=apppassword
+

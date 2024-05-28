@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
     <artifactId>pluginsib-signatureweb</artifactId>
-    <version>3.1.0-SNAPSHOT</version>
+    <version>4.0.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>pluginsib-signatureweb-api</artifactId>
@@ -11,12 +11,6 @@
   <name>FundacioBit - PluginsIB - SignatureWeb - API</name>
 
   <dependencies>
-
-    <dependency>
-      <groupId>org.fundaciobit.pluginsib.core</groupId>
-      <artifactId>pluginsib-core</artifactId>
-      <version>2.0.0</version>
-    </dependency>
 
     <dependency>
       <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
@@ -27,7 +21,7 @@
     <dependency>
       <groupId>org.fundaciobit.pluginsib.utils</groupId>
       <artifactId>pluginsib-utils-webutils</artifactId>
-      <version>2.0.0</version>
+      <version>3.0.0-SNAPSHOT</version>
     </dependency>
 
     <dependency>
