@@ -1,9 +1,9 @@
 package org.fundaciobit.pluginsib.signatureweb.fortress.converter;
 
-import org.fundaciobit.plugins.signature.api.FileInfoSignature;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import org.fundaciobit.pluginsib.signature.api.FileInfoSignature;
 
 public class SignatureConverterFactory {
 

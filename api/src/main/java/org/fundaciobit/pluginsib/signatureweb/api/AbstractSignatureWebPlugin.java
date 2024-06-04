@@ -1,13 +1,13 @@
 package org.fundaciobit.pluginsib.signatureweb.api;
 
 import org.apache.commons.fileupload.FileItem;
-import org.fundaciobit.plugins.signature.api.FileInfoSignature;
-import org.fundaciobit.plugins.signature.api.IRubricGenerator;
-import org.fundaciobit.plugins.signature.api.PropertyInfo;
-import org.fundaciobit.plugins.signature.api.StatusSignature;
-import org.fundaciobit.plugins.signature.api.StatusSignaturesSet;
-import org.fundaciobit.plugins.signatureserver.api.AbstractSignatureServerPlugin;
 import org.fundaciobit.pluginsib.core.v3.utils.CertificateUtils;
+import org.fundaciobit.pluginsib.signature.api.FileInfoSignature;
+import org.fundaciobit.pluginsib.signature.api.IRubricGenerator;
+import org.fundaciobit.pluginsib.signature.api.PropertyInfo;
+import org.fundaciobit.pluginsib.signature.api.StatusSignature;
+import org.fundaciobit.pluginsib.signature.api.StatusSignaturesSet;
+import org.fundaciobit.pluginsib.signatureserver.api.AbstractSignatureServerPlugin;
 import org.fundaciobit.pluginsib.utils.webutils.AbstractWebPlugin;
 
 import javax.servlet.http.HttpServletRequest;

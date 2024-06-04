@@ -1,9 +1,10 @@
 package org.fundaciobit.pluginsib.signatureweb.fortress.converter;
 
 import com.viafirma.fortress.sdk.model.signature.SignatureConfiguration;
-import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 
 import java.io.IOException;
+
+import org.fundaciobit.pluginsib.signature.api.FileInfoSignature;
 
 public interface SignatureConverter {
 

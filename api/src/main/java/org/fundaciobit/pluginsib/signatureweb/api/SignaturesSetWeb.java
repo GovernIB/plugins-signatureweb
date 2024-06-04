@@ -2,9 +2,9 @@ package org.fundaciobit.pluginsib.signatureweb.api;
 
 import java.util.Date;
 
-import org.fundaciobit.plugins.signature.api.CommonInfoSignature;
-import org.fundaciobit.plugins.signature.api.FileInfoSignature;
-import org.fundaciobit.plugins.signature.api.SignaturesSet;
+import org.fundaciobit.pluginsib.signature.api.CommonInfoSignature;
+import org.fundaciobit.pluginsib.signature.api.FileInfoSignature;
+import org.fundaciobit.pluginsib.signature.api.SignaturesSet;
 
 /**
  * 

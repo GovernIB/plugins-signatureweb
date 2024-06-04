@@ -1,10 +1,10 @@
 package org.fundaciobit.pluginsib.signatureweb.fortress.converter;
 
+import org.fundaciobit.pluginsib.signature.api.FileInfoSignature;
+
 import com.viafirma.fortress.sdk.model.signature.SignatureConfiguration;
 import com.viafirma.fortress.sdk.model.signature.XadesConfiguration;
 import com.viafirma.fortress.sdk.model.signature.SignatureConfiguration.Packaging;
-
-import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 
 /**
  * 

@@ -1,8 +1,9 @@
 package org.fundaciobit.pluginsib.signatureweb.fortress.converter;
 
+import org.fundaciobit.pluginsib.signature.api.FileInfoSignature;
+
 import com.viafirma.fortress.sdk.model.signature.PadesConfiguration;
 import com.viafirma.fortress.sdk.model.signature.SignatureConfiguration;
-import org.fundaciobit.plugins.signature.api.FileInfoSignature;
 
 public class PadesSignatureConverter extends AbstractSignatureConverter {
 

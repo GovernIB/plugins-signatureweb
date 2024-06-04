@@ -5,8 +5,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.fundaciobit.plugins.signature.api.ISignaturePlugin;
-import org.fundaciobit.plugins.signature.api.StatusSignature;
+import org.fundaciobit.pluginsib.signature.api.ISignaturePlugin;
+import org.fundaciobit.pluginsib.signature.api.StatusSignature;
 
 /**
  * 

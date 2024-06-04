@@ -2,7 +2,7 @@ package org.fundaciobit.pluginsib.signatureweb.miniappletinserversia;
 
 import java.util.Properties;
 
-import org.fundaciobit.plugins.signatureserver.miniappletutils.AbstractTriFaseSigner;
+import org.fundaciobit.pluginsib.signatureserver.miniappletutils.AbstractTriFaseSigner;
 
 /**
  * 
