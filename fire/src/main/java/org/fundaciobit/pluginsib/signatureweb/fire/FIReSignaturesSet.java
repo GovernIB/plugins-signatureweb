@@ -6,46 +6,51 @@ package org.fundaciobit.pluginsib.signatureweb.fire;
  *
  */
 public class FIReSignaturesSet {
-  
-  final protected String appId;
-  
-  final protected String subjectId;
 
-  final protected String fireTransaccionId;
+    final protected String appId;
 
-  final protected FIReFileInfoSignature[] fireFileInfoSignature;
+    final protected String subjectId;
 
+    final protected String fireTransaccionId;
 
+    final protected FIReFileInfoSignature[] fireFileInfoSignature;
 
-  /**
-   * @param appId
-   * @param subjectId
-   * @param fireTransaccionId
-   * @param fireFileInfoSignature
-   */
-  public FIReSignaturesSet(String appId, String subjectId, String fireTransaccionId,
-      FIReFileInfoSignature[] fireFileInfoSignature) {
-    super();
-    this.appId = appId;
-    this.subjectId = subjectId;
-    this.fireTransaccionId = fireTransaccionId;
-    this.fireFileInfoSignature = fireFileInfoSignature;
-  }
+    final protected String languageUI;
 
-  public String getFireTransaccionId() {
-    return fireTransaccionId;
-  }
+    /**
+     * @param appId
+     * @param subjectId
+     * @param fireTransaccionId
+     * @param fireFileInfoSignature
+     */
+    public FIReSignaturesSet(String appId, String subjectId, String fireTransaccionId,
+            FIReFileInfoSignature[] fireFileInfoSignature, String languageUI) {
+        super();
+        this.appId = appId;
+        this.subjectId = subjectId;
+        this.fireTransaccionId = fireTransaccionId;
+        this.fireFileInfoSignature = fireFileInfoSignature;
+        this.languageUI = languageUI;
+    }
 
-  public FIReFileInfoSignature[] getFireFileInfoSignature() {
-    return fireFileInfoSignature;
-  }
+    public String getFireTransaccionId() {
+        return fireTransaccionId;
+    }
 
-  public String getAppId() {
-    return appId;
-  }
+    public FIReFileInfoSignature[] getFireFileInfoSignature() {
+        return fireFileInfoSignature;
+    }
 
-  public String getSubjectId() {
-    return subjectId;
-  }
+    public String getAppId() {
+        return appId;
+    }
+
+    public String getSubjectId() {
+        return subjectId;
+    }
+
+    public String getLanguageUI() {
+        return languageUI;
+    }
 
 }

@@ -53,7 +53,8 @@ public class CertificateCache {
         private final long expiryTime;
 
         public CacheEntry(List<X509Certificate> certificates, int timeToLive) {
-            if (certificates == null) throw new IllegalArgumentException("certificates is null");
+            if (certificates == null)
+                throw new IllegalArgumentException("certificates is null");
             this.certificates = Collections.unmodifiableList(certificates);
             expiryTime = System.currentTimeMillis() + (timeToLive * 1000L);
         }

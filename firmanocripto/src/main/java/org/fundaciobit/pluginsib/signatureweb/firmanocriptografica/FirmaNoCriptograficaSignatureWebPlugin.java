@@ -79,7 +79,8 @@ public class FirmaNoCriptograficaSignatureWebPlugin extends AbstractSignatureWeb
 
         // CRIDADA A  getApi().version() per comprovar comunicació.
         try {
-            getApi().versio();
+            String v = getApi().versio();
+            log.info("Cridada a versió de Evidències correcte: " + v);
         } catch (Throwable e) {
             String msg = "Error desconegut intentant connectar amb el servidor d'EvidènciesIB: " + e.getMessage();
             log.error(msg, e);
@@ -562,9 +563,13 @@ public class FirmaNoCriptograficaSignatureWebPlugin extends AbstractSignatureWeb
     private EvidenciesApi getApi() throws Exception {
 
         ApiClient apiclient = new ApiClient();
+        final String host = getPropertyRequired(FIRMANOCRIPTOGRAFICA_BASE_PROPERTIES + "evidencies.host");
+        final String username = getPropertyRequired(FIRMANOCRIPTOGRAFICA_BASE_PROPERTIES + "evidencies.username");
+        
+        log.info("Cridada a API: " + host + " - " + username );
 
-        apiclient.setBasePath(getPropertyRequired(FIRMANOCRIPTOGRAFICA_BASE_PROPERTIES + "evidencies.host"));
-        apiclient.setUsername(getPropertyRequired(FIRMANOCRIPTOGRAFICA_BASE_PROPERTIES + "evidencies.username"));
+        apiclient.setBasePath(host);
+        apiclient.setUsername(username);
         apiclient.setPassword(getPropertyRequired(FIRMANOCRIPTOGRAFICA_BASE_PROPERTIES + "evidencies.password"));
 
         apiclient.setDebugging("true".equals(getProperty(FIRMANOCRIPTOGRAFICA_BASE_PROPERTIES + "evidencies.debug")));
