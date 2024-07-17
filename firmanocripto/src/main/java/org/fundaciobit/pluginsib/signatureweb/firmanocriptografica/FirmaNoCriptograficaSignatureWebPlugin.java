@@ -250,9 +250,13 @@ public class FirmaNoCriptograficaSignatureWebPlugin extends AbstractSignatureWeb
 
             log.info(" CALL BACK => " + evi);
 
-            log.info(" CALL BACK ESTAT => " + evi.getEstatCodiDescripcio());
+            StatusSignaturesSet ss = signaturesSet.getStatusSignaturesSet();
+            
+            FileInfoSignature[] fileInfoSignatureArray = signaturesSet.getFileInfoSignatureArray();
+            FileInfoSignature fileInfoSignature = fileInfoSignatureArray[0];
+            StatusSignature statusSignature = fileInfoSignature.getStatusSignature();
 
-            if (evi.getEstatCodi() == C.getEVIDENCIAESTATCODISIGNAT()) {
+            if (C.getEVIDENCIAESTATCODISIGNAT().equals(evi.getEstatCodi())) {
 
                 EvidenciaFile efile = evi.getFitxerSignat();
 
@@ -267,21 +271,31 @@ public class FirmaNoCriptograficaSignatureWebPlugin extends AbstractSignatureWeb
                 fos.flush();
                 fos.close();
 
-                FileInfoSignature[] fileInfoSignatureArray = signaturesSet.getFileInfoSignatureArray();
 
-                FileInfoSignature fileInfoSignature = fileInfoSignatureArray[0];
 
-                fileInfoSignature.getStatusSignature().setSignedData(f);
+                statusSignature.setSignedData(f);
 
-                fileInfoSignature.getStatusSignature().setStatus(StatusSignature.STATUS_FINAL_OK);
+                statusSignature.setStatus(StatusSignature.STATUS_FINAL_OK);
 
-                signaturesSet.getStatusSignaturesSet().setStatus(StatusSignaturesSet.STATUS_FINAL_OK);
+                ss.setStatus(StatusSignaturesSet.STATUS_FINAL_OK);
 
             } else {
                 // Algun error
-                StatusSignaturesSet ss = signaturesSet.getStatusSignaturesSet();
-                ss.setStatus(StatusSignature.STATUS_FINAL_ERROR);
+                log.error("Rebut error de EvidenciesIB: " + evi.getEstatCodiDescripcio() + ": " + evi.getEstatError());
+
+                // Error de la Firma
+                statusSignature.setStatus(StatusSignature.STATUS_FINAL_ERROR);
+                statusSignature.setErrorMsg(evi.getEstatCodiDescripcio() + ": " + evi.getEstatError());
+                if (evi.getEstatExcepcio() != null) {
+                    statusSignature.setErrorException(new Exception(evi.getEstatExcepcio()));
+                }
+
+                // Error de la Transacció.
+                ss.setStatus(StatusSignaturesSet.STATUS_FINAL_ERROR);
                 ss.setErrorMsg(evi.getEstatCodiDescripcio() + ": " + evi.getEstatError());
+                if (evi.getEstatExcepcio() != null) {
+                    ss.setErrorException(new Exception(evi.getEstatExcepcio()));
+                }
             }
 
             signaturesSet.getStatusSignaturesSet().setStatus(StatusSignaturesSet.STATUS_FINAL_OK);
