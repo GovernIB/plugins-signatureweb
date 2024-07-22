@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -11,6 +12,10 @@
     <artifactId>pluginsib-signatureweb-signaturewebtester</artifactId>
     <packaging>war</packaging>
     <name>FundacioBit - PluginsIB - SignatureWeb - Tester</name>
+
+    <properties>
+        <maven-site-plugin.skip>true</maven-site-plugin.skip>
+    </properties>
 
     <dependencies>
 
@@ -56,8 +61,8 @@
             <artifactId>pluginsib-signatureweb-fnmtcloud</artifactId>
             <version>${project.version}</version>
         </dependency>
-		
-		<dependency>
+
+        <dependency>
             <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
             <artifactId>pluginsib-signatureweb-firmanocriptografica</artifactId>
             <version>${project.version}</version>
@@ -91,8 +96,20 @@
     </dependencies>
 
     <build>
-	    <!-- ${project.artifactId} -->
+        <!-- ${project.artifactId} -->
         <finalName>signaturewebtester</finalName>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>3.0.0-M1</version>
+                    <configuration>
+                        <skip>true</skip>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
 </project>
