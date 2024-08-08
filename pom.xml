@@ -44,8 +44,7 @@
     <licenses>
         <license>
             <name>European Union Public Licence (EUPL v1.2)</name>
-            <url>
-                https://joinup.ec.europa.eu/sites/default/files/custom-page/attachment/eupl_v1.2_es.pdf</url>
+            <url>https://joinup.ec.europa.eu/sites/default/files/custom-page/attachment/eupl_v1.2_es.pdf</url>
         </license>
     </licenses>
 
@@ -75,38 +74,6 @@
 
     </dependencies>
 
-    <build>
-        <pluginManagement>
-            <plugins>
-                <!-- Definició dels plugins estàndar de maven -->
-                <plugin>
-                    <artifactId>maven-clean-plugin</artifactId>
-                    <version>3.1.0</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-install-plugin</artifactId>
-                    <version>3.0.0-M1</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-dependency-plugin</artifactId>
-                    <version>3.1.2</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.0.0-M5</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>3.0.0-M5</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-site-plugin</artifactId>
-                    <version>3.9.1</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-
-    </build>
 
     <profiles>
         <profile>
