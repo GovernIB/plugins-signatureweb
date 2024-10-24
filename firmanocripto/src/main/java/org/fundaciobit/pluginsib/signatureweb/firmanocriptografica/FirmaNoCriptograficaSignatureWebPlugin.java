@@ -12,7 +12,6 @@ import org.fundaciobit.pluginsib.signatureweb.api.SignaturesSetWeb;
 import es.caib.evidenciesib.api.externa.client.evidencies.v1.api.EvidenciesApi;
 import es.caib.evidenciesib.api.externa.client.evidencies.v1.model.ConstantsWs;
 import es.caib.evidenciesib.api.externa.client.evidencies.v1.model.EvidenciaFile;
-import es.caib.evidenciesib.api.externa.client.evidencies.v1.model.EvidenciaFileBase64;
 import es.caib.evidenciesib.api.externa.client.evidencies.v1.model.EvidenciaStartRequest;
 import es.caib.evidenciesib.api.externa.client.evidencies.v1.model.EvidenciaStartResponse;
 import es.caib.evidenciesib.api.externa.client.evidencies.v1.model.EvidenciaWs;
@@ -24,7 +23,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -32,9 +30,9 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- *
+ * 
  * @author anadal
- *
+ * 24 oct 2024 10:45:14
  */
 public class FirmaNoCriptograficaSignatureWebPlugin extends AbstractSignatureWebPlugin {
 
@@ -262,21 +260,19 @@ public class FirmaNoCriptograficaSignatureWebPlugin extends AbstractSignatureWeb
 
                 String encryptedFile = efile.getEncryptedFileID();
 
-                EvidenciaFileBase64 file = api.getfilebase64(evidenciaID, encryptedFile, language);
+                EvidenciaFile file = api.getfile(evidenciaID, encryptedFile, language);
 
                 File f = File.createTempFile("PLUGIN_FIRMA_NO_CRIPTO_" + evidenciaID + "_", "_" + file.getName());
 
                 FileOutputStream fos = new FileOutputStream(f);
-                fos.write(Base64.getDecoder().decode(file.getDocumentBase64()));
+                fos.write(file.getDocument());
                 fos.flush();
                 fos.close();
 
 
 
                 statusSignature.setSignedData(f);
-
                 statusSignature.setStatus(StatusSignature.STATUS_FINAL_OK);
-
                 ss.setStatus(StatusSignaturesSet.STATUS_FINAL_OK);
 
             } else {
