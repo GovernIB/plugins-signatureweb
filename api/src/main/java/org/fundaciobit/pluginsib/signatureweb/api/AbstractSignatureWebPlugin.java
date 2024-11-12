@@ -505,6 +505,7 @@ public abstract class AbstractSignatureWebPlugin extends
         }
     }
 
+    /*
     @Override
     public int[] getSupportedSignatureModes(String signType) {
 
@@ -523,7 +524,7 @@ public abstract class AbstractSignatureWebPlugin extends
 
             case FileInfoSignature.SIGN_TYPE_XADES:
                 return new int[] { FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPING,
-                        FileInfoSignature.SIGN_MODE_DETACHED, FileInfoSignature.SIGN_MODE_INTERNALLY_DETACHED };
+                        FileInfoSignature.SIGN_MODE_INTERNALLY_DETACHED };
 
             default:
                 log.error("S'ha cridat a getSupportedSignatureModes amb un amb un tipus de firma desconegut: ]"
@@ -531,6 +532,7 @@ public abstract class AbstractSignatureWebPlugin extends
                 return new int[0];
         }
     }
+    */
 
     @Override
     public Integer getSupportedNumberOfSignaturesInBatch() {

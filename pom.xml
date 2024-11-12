@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
     <artifactId>pluginsib-signatureweb</artifactId>
-    <version>4.0.0-SNAPSHOT</version>
+    <version>4.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>FundacioBit - PluginsIB - SignatureWeb</name>
@@ -57,7 +57,7 @@
     </repositories>
 
     <properties>
-        <pluginsib.signatureserver.version>4.0.0-SNAPSHOT</pluginsib.signatureserver.version>
+        <pluginsib.signatureserver.version>4.1.0-SNAPSHOT</pluginsib.signatureserver.version>
         <pluginsib.core.version>3.0.0-SNAPHOT</pluginsib.core.version>
         <afirma.version>1.7.2</afirma.version>
         <integra.version>2.2.1_000</integra.version>

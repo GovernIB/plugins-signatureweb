@@ -13,44 +13,43 @@ import org.fundaciobit.pluginsib.signature.api.SignaturesSet;
  */
 public class SignaturesSetWeb extends SignaturesSet {
 
-  public String urlFinal;
-  
-  /** Data en que les sol·lictuds de firma caduquen */
-  protected Date expiryDate;
+    public String urlFinal;
 
-  /**
-   * 
-   */
-  public SignaturesSetWeb() {
-  }
+    /** Data en que les sol·lictuds de firma caduquen */
+    protected Date expiryDate;
 
-  /**
-   * @param signaturesSetID
-   * @param commonInfoSignature
-   * @param fileInfoSignatureArray
-   */
-  public SignaturesSetWeb(String signaturesSetID, Date expiryDate,
-      CommonInfoSignature commonInfoSignature, FileInfoSignature[] fileInfoSignatureArray,
-      String urlFinal) {
-    super(signaturesSetID, commonInfoSignature, fileInfoSignatureArray);
-    this.urlFinal = urlFinal;
-    this.expiryDate = expiryDate;
-  }
+    /**
+     * 
+     */
+    public SignaturesSetWeb() {
+    }
 
-  public String getUrlFinal() {
-    return urlFinal;
-  }
+    /**
+     * @param signaturesSetID
+     * @param commonInfoSignature
+     * @param fileInfoSignatureArray
+     */
+    public SignaturesSetWeb(String signaturesSetID, Date expiryDate, CommonInfoSignature commonInfoSignature,
+            FileInfoSignature[] fileInfoSignatureArray, String urlFinal) {
+        super(signaturesSetID, commonInfoSignature, fileInfoSignatureArray);
+        this.urlFinal = urlFinal;
+        this.expiryDate = expiryDate;
+    }
 
-  public void setUrlFinal(String urlFinal) {
-    this.urlFinal = urlFinal;
-  }
+    public String getUrlFinal() {
+        return urlFinal;
+    }
 
-  public Date getExpiryDate() {
-    return expiryDate;
-  }
+    public void setUrlFinal(String urlFinal) {
+        this.urlFinal = urlFinal;
+    }
 
-  public void setExpiryDate(Date expiryDate) {
-    this.expiryDate = expiryDate;
-  }
+    public Date getExpiryDate() {
+        return expiryDate;
+    }
+
+    public void setExpiryDate(Date expiryDate) {
+        this.expiryDate = expiryDate;
+    }
 
 }

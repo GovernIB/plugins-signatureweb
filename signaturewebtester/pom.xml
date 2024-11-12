@@ -6,7 +6,7 @@
     <parent>
         <artifactId>pluginsib-signatureweb</artifactId>
         <groupId>org.fundaciobit.pluginsib.signatureweb</groupId>
-        <version>4.0.0-SNAPSHOT</version>
+        <version>4.1.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>pluginsib-signatureweb-signaturewebtester</artifactId>
@@ -22,7 +22,6 @@
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
-            <version>8.0</version>
             <scope>provided</scope>
         </dependency>
 

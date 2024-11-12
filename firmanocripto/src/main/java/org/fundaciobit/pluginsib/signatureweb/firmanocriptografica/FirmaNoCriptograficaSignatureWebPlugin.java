@@ -249,7 +249,7 @@ public class FirmaNoCriptograficaSignatureWebPlugin extends AbstractSignatureWeb
             log.info(" CALL BACK => " + evi);
 
             StatusSignaturesSet ss = signaturesSet.getStatusSignaturesSet();
-            
+
             FileInfoSignature[] fileInfoSignatureArray = signaturesSet.getFileInfoSignatureArray();
             FileInfoSignature fileInfoSignature = fileInfoSignatureArray[0];
             StatusSignature statusSignature = fileInfoSignature.getStatusSignature();
@@ -268,8 +268,6 @@ public class FirmaNoCriptograficaSignatureWebPlugin extends AbstractSignatureWeb
                 fos.write(file.getDocument());
                 fos.flush();
                 fos.close();
-
-
 
                 statusSignature.setSignedData(f);
                 statusSignature.setStatus(StatusSignature.STATUS_FINAL_OK);
@@ -360,10 +358,8 @@ public class FirmaNoCriptograficaSignatureWebPlugin extends AbstractSignatureWeb
 
         PrintWriter out = generateHeader(request, response, absolutePluginRequestPath, relativePluginRequestPath,
                 locale.getLanguage(), sai, signaturesSet);
-        
-        
+
         final String cancelURL = relativePluginRequestPath + "/" + CANCEL_PAGE;
-        
 
         out.println("<script type=\"text/javascript\">" + "\n");
         out.println("    let windowObjectReference = null;");
@@ -386,11 +382,12 @@ public class FirmaNoCriptograficaSignatureWebPlugin extends AbstractSignatureWeb
         out.println("</script>" + "\n");
         out.println("<center>" + "\n");
         out.println("<h4> " + getTraduccio("esperar", locale) + " </h4><br/>" + "\n");
-        out.println("<img src=\"" + relativePluginRequestPath + "/" + WEBRESOURCE + "/img/ajax-loader2.gif\" />" + "\n");
+        out.println(
+                "<img src=\"" + relativePluginRequestPath + "/" + WEBRESOURCE + "/img/ajax-loader2.gif\" />" + "\n");
         out.println("<br/><br/><input id=\"cancel\" name=\"cancel\" class=\"btn btn-warning btn-large\"\r\n"
                 + "                             onclick=\"cancelEvidencia();\"\r\n"
                 + "                             value=\"" + getTraduccio("cancel", locale) + "\" />");
-        
+
         out.println("<br/><br/><h4> " + getTraduccio("pipellabloquejada", locale) + " </h4>" + "\n");
         out.println("<br/><button class=\"btn btn-succes btn-large\" onclick=\"reintentar();\">");
         out.println("       &#8634; " + getTraduccio("reintentar", locale) + "</button>");
@@ -476,8 +473,17 @@ public class FirmaNoCriptograficaSignatureWebPlugin extends AbstractSignatureWeb
             log.error("getSupportedSignatureTypes: " + e.getMessage(), e);
             return null;
         }
-
     }
+    
+    @Override
+    public int[] getSupportedSignatureModes(String signType) {
+        if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
+            return new int[] { FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPED };
+        } 
+        return new int[0];
+    }
+    
+    
 
     @Override
     public boolean providesRubricGenerator() {
@@ -575,8 +581,8 @@ public class FirmaNoCriptograficaSignatureWebPlugin extends AbstractSignatureWeb
         ApiClient apiclient = new ApiClient();
         final String host = getPropertyRequired(FIRMANOCRIPTOGRAFICA_BASE_PROPERTIES + "evidencies.host");
         final String username = getPropertyRequired(FIRMANOCRIPTOGRAFICA_BASE_PROPERTIES + "evidencies.username");
-        
-        log.info("Cridada a API: " + host + " - " + username );
+
+        log.info("Cridada a API: " + host + " - " + username);
 
         apiclient.setBasePath(host);
         apiclient.setUsername(username);
