@@ -142,7 +142,7 @@ public class AfirmaTriphaseSignatureWebPlugin extends AbstractMiniAppletSignatur
                         FileInfoSignature.SIGN_MODE_DETACHED };
 
             case FileInfoSignature.SIGN_TYPE_XADES:
-                return new int[] { FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPING,
+                return new int[] { FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPING, FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPED,
                         FileInfoSignature.SIGN_MODE_INTERNALLY_DETACHED };
 
             default:
