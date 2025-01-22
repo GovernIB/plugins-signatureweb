@@ -9,13 +9,18 @@ import org.fundaciobit.pluginsib.signature.api.StatusSignaturesSet;
 import org.fundaciobit.pluginsib.signatureweb.api.AbstractSignatureWebPlugin;
 import org.fundaciobit.pluginsib.signatureweb.api.SignaturesSetWeb;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import es.caib.evidenciesib.api.externa.client.evidencies.v1.api.EvidenciesApi;
-import es.caib.evidenciesib.api.externa.client.evidencies.v1.model.ConstantsWs;
 import es.caib.evidenciesib.api.externa.client.evidencies.v1.model.EvidenciaFile;
 import es.caib.evidenciesib.api.externa.client.evidencies.v1.model.EvidenciaStartRequest;
 import es.caib.evidenciesib.api.externa.client.evidencies.v1.model.EvidenciaStartResponse;
 import es.caib.evidenciesib.api.externa.client.evidencies.v1.model.EvidenciaWs;
+import es.caib.evidenciesib.api.externa.client.evidencies.v1.model.RestExceptionInfo;
 import es.caib.evidenciesib.api.externa.client.evidencies.v1.services.ApiClient;
+import es.caib.evidenciesib.api.externa.client.evidencies.v1.services.ApiException;
+import es.caib.evidenciesib.api.externa.client.evidencies.v1.services.Configuration;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -36,7 +41,7 @@ import java.util.Properties;
  */
 public class FirmaNoCriptograficaSignatureWebPlugin extends AbstractSignatureWebPlugin {
 
-    public static final ConstantsWs C = new ConstantsWs();
+    public static final EvidenciaWs C = new EvidenciaWs();
 
     public static final String FIRMANOCRIPTOGRAFICA_BASE_PROPERTIES = PLUGINSIB_SIGNATUREWEB_BASE_PROPERTY
             + "firmanocriptografica.";
@@ -80,9 +85,14 @@ public class FirmaNoCriptograficaSignatureWebPlugin extends AbstractSignatureWeb
             String v = getApi().versio();
             log.info("Cridada a versió de Evidències correcte: " + v);
         } catch (Throwable e) {
-            String msg = "Error desconegut intentant connectar amb el servidor d'EvidènciesIB: " + e.getMessage();
-            log.error(msg, e);
-            return msg;
+
+            String msg = manageApiException(e);
+            if (msg == null) {
+                msg = e.getMessage();
+            }
+            String msg2 = "Error desconegut intentant connectar amb el servidor d'EvidènciesIB: " + msg;
+            log.error(msg2, e);
+            return msg2;
         }
 
         if (signaturesSet.getFileInfoSignatureArray().length != 1) {
@@ -161,24 +171,24 @@ public class FirmaNoCriptograficaSignatureWebPlugin extends AbstractSignatureWeb
             log.error("Error Establint inici de comunicació amb EvidènciesIB: " + th.getMessage() + " [CLASS: "
                     + th.getClass().getName() + "]", th);
 
-            StatusSignaturesSet ss = signaturesSet.getStatusSignaturesSet();
+            String msg = manageApiException(th);
 
-            ss.setStatus(StatusSignature.STATUS_FINAL_ERROR);
-
-            ss.setErrorException(th);
-
-            String msg;
-            Throwable cause = th.getCause();
-            if (cause == null) {
-                msg = th.getMessage();
-            } else {
-                if (th instanceof java.lang.reflect.InvocationTargetException) {
-                    msg = cause.getMessage();
+            if (msg == null) {
+                Throwable cause = th.getCause();
+                if (cause == null) {
+                    msg = th.getMessage();
                 } else {
-                    msg = th.getMessage() + "(" + cause.getMessage() + ")";
+                    if (th instanceof java.lang.reflect.InvocationTargetException) {
+                        msg = cause.getMessage();
+                    } else {
+                        msg = th.getMessage() + "(" + cause.getMessage() + ")";
+                    }
                 }
             }
 
+            StatusSignaturesSet ss = signaturesSet.getStatusSignaturesSet();
+            ss.setStatus(StatusSignature.STATUS_FINAL_ERROR);
+            ss.setErrorException(th);
             ss.setErrorMsg(getTraduccio("error.firmantdocument", new Locale(common.getLanguageUI()), msg));
 
             final String url = signaturesSet.getUrlFinal();
@@ -186,6 +196,35 @@ public class FirmaNoCriptograficaSignatureWebPlugin extends AbstractSignatureWeb
             return url;
         }
 
+    }
+
+    private String manageApiException(Throwable th) {
+        String msg = null;
+
+        if (th instanceof ApiException) {
+            ApiException e = (ApiException) th;
+            StringBuffer sb = new StringBuffer();
+            sb.append("    - Code: " + e.getCode() + " ("
+                    + javax.ws.rs.core.Response.Status.fromStatusCode(e.getCode()).name() + ")\n");
+            try {
+                ObjectMapper objectMapper;
+                objectMapper = Configuration.getDefaultApiClient().getJSON().getContext(null);
+                RestExceptionInfo rei = objectMapper.readValue(e.getMessage(), RestExceptionInfo.class);
+                sb.append("    - RestExceptionInfo:").append("\n");
+                sb.append("          + errorCode: " + rei.getErrorCode()).append("\n");
+                sb.append("          + errorMessage: " + rei.getErrorMessage()).append("\n");
+                sb.append("          + stackTrace: " + rei.getStackTrace()).append("\n");
+                sb.append("          + stackTraceCause: " + rei.getStackTraceCause()).append("\n");
+                sb.append("          + field: " + rei.getField());
+
+            } catch (Exception e1) {
+                log.error("Error parsing ApiException: " + e.getMessage(), e1);
+                // No es un objecte RestExceptionInfo
+                sb.append("    - Message: " + e.getMessage()).append("\n");
+            }
+            msg = sb.toString();
+        }
+        return msg;
     }
 
     @Override
@@ -298,22 +337,20 @@ public class FirmaNoCriptograficaSignatureWebPlugin extends AbstractSignatureWeb
 
             log.error("Error Firmant: " + th.getMessage() + " [CLASS: " + th.getClass().getName() + "]", th);
 
-            StatusSignaturesSet ss = signaturesSet.getStatusSignaturesSet();
-
-            ss.setStatus(StatusSignature.STATUS_FINAL_ERROR);
-
-            ss.setErrorException(th);
-
-            String msg;
-            Throwable cause = th.getCause();
-            if (cause != null && th instanceof java.lang.reflect.InvocationTargetException) {
-                msg = cause.getMessage();
-            } else {
-                msg = th.getMessage();
+            String msg = manageApiException(th);
+            if (msg == null) {
+                Throwable cause = th.getCause();
+                if (cause != null && th instanceof java.lang.reflect.InvocationTargetException) {
+                    msg = cause.getMessage();
+                } else {
+                    msg = th.getMessage();
+                }
             }
 
+            StatusSignaturesSet ss = signaturesSet.getStatusSignaturesSet();
+            ss.setStatus(StatusSignature.STATUS_FINAL_ERROR);
+            ss.setErrorException(th);
             ss.setErrorMsg(getTraduccio("error.firmantdocument", locale, msg));
-
         }
 
         // Estam en la finestra nova 
@@ -474,16 +511,14 @@ public class FirmaNoCriptograficaSignatureWebPlugin extends AbstractSignatureWeb
             return null;
         }
     }
-    
+
     @Override
     public int[] getSupportedSignatureModes(String signType) {
         if (FileInfoSignature.SIGN_TYPE_PADES.equals(signType)) {
             return new int[] { FileInfoSignature.SIGN_MODE_ATTACHED_ENVELOPED };
-        } 
+        }
         return new int[0];
     }
-    
-    
 
     @Override
     public boolean providesRubricGenerator() {

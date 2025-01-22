@@ -9,8 +9,7 @@ public class StatusFirmaNoCriptografica {
 
     // XYZ ZZZ TODO FALTA ALGUNA DADA ???
     protected final Long evidenciaID;
-    
-    
+
     protected final String urlEvidencies;
 
     public StatusFirmaNoCriptografica(Long evidenciaID, String urlEvidencies) {
