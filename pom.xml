@@ -26,6 +26,7 @@
         <module>firmanocripto</module>
         <module>afirma-triphase-server-lib</module>
         <module>afirma-triphase-server</module>
+        <module>miniappletinserver</module>
         <module>signaturewebtester</module>
     </modules>
 
@@ -63,13 +64,59 @@
         <integra.version>2.2.1_000</integra.version>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>4.0.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>1.3</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
+                <artifactId>pluginsib-signatureserver-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.fundaciobit.pluginsib.utils</groupId>
+                <artifactId>pluginsib-utils-webutils</artifactId>
+                <version>3.0.0-SNAPSHOT</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
+        <dependency>
+            <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
+            <artifactId>pluginsib-signatureserver-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.fundaciobit.pluginsib.utils</groupId>
+            <artifactId>pluginsib-utils-webutils</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <version>4.0.1</version>
-            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
         </dependency>
 
     </dependencies>

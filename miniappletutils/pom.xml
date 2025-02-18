@@ -23,18 +23,12 @@
         <dependency>
             <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
             <artifactId>pluginsib-signatureserver-api</artifactId>
-            <version>${pluginsib.signatureserver.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.fundaciobit.pluginsib.signatureserver</groupId>
             <artifactId>pluginsib-signatureserver-miniappletutils</artifactId>
             <version>${pluginsib.signatureserver.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
         </dependency>
 
         <dependency>

@@ -39,7 +39,7 @@ public class SIAWebPluginIT extends AbstractPluginIT {
                 // Workaround per: https://github.com/HtmlUnit/htmlunit/issues/357
                 // La pàgina de SIA no retorna Content-Type
 
-                @SuppressWarnings("unused")
+                @SuppressWarnings({ "unused", "resource" })
                 WebConnectionWrapper w = new WebConnectionWrapper(client) {
                     public WebResponse getResponse(WebRequest request) throws IOException {
                         WebResponse response = super.getResponse(request);

@@ -123,7 +123,6 @@ public class FirmaNoCriptograficaSignatureWebPlugin extends AbstractSignatureWeb
 
             final String returnUrl = absolutePluginRequestPath + "/" + CALLBACK_PAGE + "/{0}";
 
-            final String language = common.getLanguageUI();
 
             EvidenciaStartRequest start = new EvidenciaStartRequest();
 
@@ -145,7 +144,7 @@ public class FirmaNoCriptograficaSignatureWebPlugin extends AbstractSignatureWeb
 
             start.setDocumentASignar(ef);
             start.setLanguageDocument(fis.getLanguageSign());
-            start.setLanguageUI(language);
+            start.setLanguageUI(common.getLanguageUI());
             start.setPersonaNif(common.getAdministrationID());
             start.setPersonaUsername(common.getUsername());
 
